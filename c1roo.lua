@@ -1,5 +1,5 @@
 -- ============================================
--- c1roo_Universal - FULL SCRIPT v5
+-- c1roo_Universal - FULL SCRIPT v6
 -- PART 1/2
 -- ============================================
 
@@ -37,23 +37,18 @@ local c1rooUI = (function()
 
     local gui = nil
     local iconFrame = nil
-    local mainFrame = nil
     local dragging, dragStart, startPos = false, nil, nil
     local iconDragging, iconDragStart, iconStartPos = false, nil, nil
     local iconMoved = false
 
     function c1rooUI:Notify(opts)
         opts = opts or {}
-        local title = opts.Title or "c1roo"
-        local text = opts.Text or ""
-        local duration = opts.Duration or 3
-        local icon = opts.Icon or ""
         pcall(function()
             StarterGui:SetCore("SendNotification", {
-                Title = title,
-                Text = text,
-                Duration = duration,
-                Icon = icon ~= "" and icon or nil,
+                Title = opts.Title or "c1roo",
+                Text = opts.Text or "",
+                Duration = opts.Duration or 3,
+                Icon = opts.Icon ~= "" and opts.Icon or nil,
             })
         end)
     end
@@ -67,10 +62,8 @@ local c1rooUI = (function()
         if gui then gui:Destroy() end
 
         gui = mk("ScreenGui", {
-            Name = "c1rooUI",
-            ResetOnSpawn = false,
-            IgnoreGuiInset = true,
-            ZIndexBehavior = Enum.ZIndexBehavior.Sibling,
+            Name = "c1rooUI", ResetOnSpawn = false,
+            IgnoreGuiInset = true, ZIndexBehavior = Enum.ZIndexBehavior.Sibling,
         })
         local ok = pcall(function() gui.Parent = game:GetService("CoreGui") end)
         if not ok or not gui.Parent then
@@ -78,16 +71,11 @@ local c1rooUI = (function()
         end
 
         iconFrame = mk("TextButton", {
-            Name = "c1rooIcon",
-            Size = UDim2.new(0, 60, 0, 60),
+            Name = "c1rooIcon", Size = UDim2.new(0, 60, 0, 60),
             Position = UDim2.new(0, 20, 0.5, -30),
-            BackgroundColor3 = T.Bg,
-            Text = "c1roo",
-            TextColor3 = T.Accent,
-            Font = Enum.Font.GothamBold,
-            TextSize = 13,
-            AutoButtonColor = false,
-            Visible = false,
+            BackgroundColor3 = T.Bg, Text = "c1roo",
+            TextColor3 = T.Accent, Font = Enum.Font.GothamBold,
+            TextSize = 13, AutoButtonColor = false, Visible = false,
             Parent = gui,
         })
         mk("UICorner", {CornerRadius = UDim.new(0, 14), Parent = iconFrame})
@@ -96,23 +84,18 @@ local c1rooUI = (function()
         local pulseDot = mk("Frame", {
             Size = UDim2.new(0, 10, 0, 10),
             Position = UDim2.new(1, -8, 0, -2),
-            BackgroundColor3 = T.Accent,
-            BorderSizePixel = 0,
-            Parent = iconFrame,
+            BackgroundColor3 = T.Accent, BorderSizePixel = 0, Parent = iconFrame,
         })
         mk("UICorner", {CornerRadius = UDim.new(1, 0), Parent = pulseDot})
         mk("UIStroke", {Color = T.Bg, Thickness = 2, Parent = pulseDot})
 
         iconFrame.InputBegan:Connect(function(input)
             if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-                iconDragging = true
-                iconMoved = false
+                iconDragging = true; iconMoved = false
                 iconDragStart = input.Position
                 iconStartPos = iconFrame.Position
                 input.Changed:Connect(function()
-                    if input.UserInputState == Enum.UserInputState.End then
-                        iconDragging = false
-                    end
+                    if input.UserInputState == Enum.UserInputState.End then iconDragging = false end
                 end)
             end
         end)
@@ -120,87 +103,53 @@ local c1rooUI = (function()
         UserInputService.InputChanged:Connect(function(input)
             if iconDragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
                 local d = input.Position - iconDragStart
-                if math.abs(d.X) > 5 or math.abs(d.Y) > 5 then
-                    iconMoved = true
-                end
-                iconFrame.Position = UDim2.new(
-                    iconStartPos.X.Scale, iconStartPos.X.Offset + d.X,
-                    iconStartPos.Y.Scale, iconStartPos.Y.Offset + d.Y
-                )
+                if math.abs(d.X) > 5 or math.abs(d.Y) > 5 then iconMoved = true end
+                iconFrame.Position = UDim2.new(iconStartPos.X.Scale, iconStartPos.X.Offset + d.X, iconStartPos.Y.Scale, iconStartPos.Y.Offset + d.Y)
             end
         end)
 
         local main = mk("Frame", {
             Size = UDim2.new(0, w, 0, h),
             Position = UDim2.new(0.5, -w/2, 0.5, -h/2),
-            BackgroundColor3 = T.Bg,
-            BorderSizePixel = 0,
-            Active = true,
-            Parent = gui,
+            BackgroundColor3 = T.Bg, BorderSizePixel = 0, Active = true, Parent = gui,
         })
-        mainFrame = main
         mk("UICorner", {CornerRadius = UDim.new(0, 10), Parent = main})
         mk("UIStroke", {Color = T.Border, Thickness = 1, Parent = main})
 
         local topBar = mk("Frame", {
             Size = UDim2.new(1, 0, 0, 40),
-            BackgroundColor3 = T.Surface,
-            BorderSizePixel = 0,
-            Parent = main,
+            BackgroundColor3 = T.Surface, BorderSizePixel = 0, Parent = main,
         })
         mk("UICorner", {CornerRadius = UDim.new(0, 10), Parent = topBar})
         mk("Frame", {
             Size = UDim2.new(1, 0, 0, 12),
             Position = UDim2.new(0, 0, 1, -12),
-            BackgroundColor3 = T.Surface,
-            BorderSizePixel = 0,
-            Parent = topBar,
+            BackgroundColor3 = T.Surface, BorderSizePixel = 0, Parent = topBar,
         })
 
         mk("TextLabel", {
-            Size = UDim2.new(0.6, 0, 1, 0),
-            Position = UDim2.new(0, 14, 0, 0),
-            BackgroundTransparency = 1,
-            Text = title,
-            TextColor3 = T.Text,
-            Font = Enum.Font.GothamBold,
-            TextSize = 14,
-            TextXAlignment = Enum.TextXAlignment.Left,
-            Parent = topBar,
+            Size = UDim2.new(0.6, 0, 1, 0), Position = UDim2.new(0, 14, 0, 0),
+            BackgroundTransparency = 1, Text = title,
+            TextColor3 = T.Text, Font = Enum.Font.GothamBold,
+            TextSize = 14, TextXAlignment = Enum.TextXAlignment.Left, Parent = topBar,
         })
 
         mk("Frame", {
-            Size = UDim2.new(0, 50, 0, 2),
-            Position = UDim2.new(0, 14, 1, -2),
-            BackgroundColor3 = T.Accent,
-            BorderSizePixel = 0,
-            Parent = topBar,
+            Size = UDim2.new(0, 50, 0, 2), Position = UDim2.new(0, 14, 1, -2),
+            BackgroundColor3 = T.Accent, BorderSizePixel = 0, Parent = topBar,
         })
 
         local minimizeBtn = mk("TextButton", {
-            Size = UDim2.new(0, 32, 0, 32),
-            Position = UDim2.new(1, -38, 0, 4),
-            BackgroundColor3 = T.SurfaceLight,
-            Text = "—",
-            TextColor3 = T.TextDim,
-            Font = Enum.Font.GothamBold,
-            TextSize = 16,
-            AutoButtonColor = false,
-            Parent = topBar,
+            Size = UDim2.new(0, 32, 0, 32), Position = UDim2.new(1, -38, 0, 4),
+            BackgroundColor3 = T.SurfaceLight, Text = "—",
+            TextColor3 = T.TextDim, Font = Enum.Font.GothamBold,
+            TextSize = 16, AutoButtonColor = false, Parent = topBar,
         })
         mk("UICorner", {CornerRadius = UDim.new(0, 6), Parent = minimizeBtn})
 
-        minimizeBtn.MouseEnter:Connect(function()
-            tw(minimizeBtn, {BackgroundColor3 = T.AccentDim, TextColor3 = T.Text}, 0.15)
-        end)
-        minimizeBtn.MouseLeave:Connect(function()
-            tw(minimizeBtn, {BackgroundColor3 = T.SurfaceLight, TextColor3 = T.TextDim}, 0.15)
-        end)
-
-        minimizeBtn.MouseButton1Click:Connect(function()
-            main.Visible = false
-            iconFrame.Visible = true
-        end)
+        minimizeBtn.MouseEnter:Connect(function() tw(minimizeBtn, {BackgroundColor3 = T.AccentDim, TextColor3 = T.Text}, 0.15) end)
+        minimizeBtn.MouseLeave:Connect(function() tw(minimizeBtn, {BackgroundColor3 = T.SurfaceLight, TextColor3 = T.TextDim}, 0.15) end)
+        minimizeBtn.MouseButton1Click:Connect(function() main.Visible = false; iconFrame.Visible = true end)
 
         iconFrame.MouseButton1Click:Connect(function()
             if iconMoved then return end
@@ -208,10 +157,7 @@ local c1rooUI = (function()
             main.Visible = true
             main.Size = UDim2.new(0, 0, 0, 0)
             main.Position = UDim2.new(0.5, 0, 0.5, 0)
-            tw(main, {
-                Size = UDim2.new(0, w, 0, h),
-                Position = UDim2.new(0.5, -w/2, 0.5, -h/2),
-            }, 0.2)
+            tw(main, {Size = UDim2.new(0, w, 0, h), Position = UDim2.new(0.5, -w/2, 0.5, -h/2)}, 0.2)
         end)
 
         iconFrame.MouseEnter:Connect(function()
@@ -229,17 +175,13 @@ local c1rooUI = (function()
                     pulseDot.BackgroundTransparency = 0
                     tw(pulseDot, {BackgroundTransparency = 0.7}, 0.8)
                     task.wait(0.8)
-                else
-                    break
-                end
+                else break end
             end
         end)
 
         topBar.InputBegan:Connect(function(input)
             if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-                dragging = true
-                dragStart = input.Position
-                startPos = main.Position
+                dragging = true; dragStart = input.Position; startPos = main.Position
                 input.Changed:Connect(function()
                     if input.UserInputState == Enum.UserInputState.End then dragging = false end
                 end)
@@ -253,16 +195,20 @@ local c1rooUI = (function()
         end)
 
         local content = mk("Frame", {
-            Size = UDim2.new(1, 0, 1, -40),
-            Position = UDim2.new(0, 0, 0, 40),
-            BackgroundTransparency = 1,
-            Parent = main,
+            Size = UDim2.new(1, 0, 1, -40), Position = UDim2.new(0, 0, 0, 40),
+            BackgroundTransparency = 1, Parent = main,
         })
 
-        local tabBar = mk("Frame", {
+        -- FIXED: tab bar jadi ScrollingFrame biar ga overflow
+        local tabBar = mk("ScrollingFrame", {
             Size = UDim2.new(1, -16, 0, 36),
             Position = UDim2.new(0, 8, 0, 8),
             BackgroundTransparency = 1,
+            BorderSizePixel = 0,
+            ScrollBarThickness = 0,
+            ScrollingDirection = Enum.ScrollingDirection.X,
+            CanvasSize = UDim2.new(0, 0, 0, 0),
+            AutomaticCanvasSize = Enum.AutomaticSize.X,
             Parent = content,
         })
         mk("UIListLayout", {
@@ -274,11 +220,8 @@ local c1rooUI = (function()
         })
 
         local pageWrap = mk("Frame", {
-            Size = UDim2.new(1, -16, 1, -52),
-            Position = UDim2.new(0, 8, 0, 52),
-            BackgroundTransparency = 1,
-            ClipsDescendants = true,
-            Parent = content,
+            Size = UDim2.new(1, -16, 1, -52), Position = UDim2.new(0, 8, 0, 52),
+            BackgroundTransparency = 1, ClipsDescendants = true, Parent = content,
         })
 
         local windowObj = {
@@ -295,7 +238,8 @@ local c1rooUI = (function()
             local tabIndex = self._tabCount
 
             local btn = mk("TextButton", {
-                Size = UDim2.new(0, 90, 1, 0),
+                Size = UDim2.new(0, 0, 1, 0),
+                AutomaticSize = Enum.AutomaticSize.X,
                 BackgroundColor3 = T.Surface,
                 Text = name,
                 TextColor3 = T.TextDim,
@@ -305,18 +249,20 @@ local c1rooUI = (function()
                 Parent = self._tabBar,
             })
             mk("UICorner", {CornerRadius = UDim.new(0, 6), Parent = btn})
+            mk("UIPadding", {
+                PaddingLeft = UDim.new(0, 12),
+                PaddingRight = UDim.new(0, 12),
+                Parent = btn,
+            })
             local stroke = mk("UIStroke", {Color = T.Border, Thickness = 1, Parent = btn})
 
             local page = mk("ScrollingFrame", {
                 Size = UDim2.new(1, 0, 1, 0),
-                BackgroundTransparency = 1,
-                BorderSizePixel = 0,
-                ScrollBarThickness = 3,
-                ScrollBarImageColor3 = T.Accent,
+                BackgroundTransparency = 1, BorderSizePixel = 0,
+                ScrollBarThickness = 3, ScrollBarImageColor3 = T.Accent,
                 CanvasSize = UDim2.new(0, 0, 0, 0),
                 AutomaticCanvasSize = Enum.AutomaticSize.Y,
-                Visible = false,
-                Parent = self._pageWrap,
+                Visible = false, Parent = self._pageWrap,
             })
             mk("UIListLayout", {Padding = UDim.new(0, 8), SortOrder = Enum.SortOrder.LayoutOrder, Parent = page})
             mk("UIPadding", {
@@ -360,13 +306,9 @@ local c1rooUI = (function()
 
                 mk("TextLabel", {
                     Size = UDim2.new(1, 0, 0, 22),
-                    BackgroundTransparency = 1,
-                    Text = secName,
-                    TextColor3 = T.Accent,
-                    Font = Enum.Font.GothamBold,
-                    TextSize = 11,
-                    TextXAlignment = Enum.TextXAlignment.Left,
-                    Parent = section,
+                    BackgroundTransparency = 1, Text = secName,
+                    TextColor3 = T.Accent, Font = Enum.Font.GothamBold,
+                    TextSize = 11, TextXAlignment = Enum.TextXAlignment.Left, Parent = section,
                 })
 
                 local secObj = {_frame = section, _itemCount = 0}
@@ -382,22 +324,15 @@ local c1rooUI = (function()
                     local cb = o.Callback or function() end
                     local f = mk("TextButton", {
                         Size = UDim2.new(1, 0, 0, 34),
-                        BackgroundColor3 = T.Surface,
-                        Text = "",
-                        AutoButtonColor = false,
+                        BackgroundColor3 = T.Surface, Text = "", AutoButtonColor = false,
                     })
                     mk("UICorner", {CornerRadius = UDim.new(0, 6), Parent = f})
                     local s = mk("UIStroke", {Color = T.Border, Thickness = 1, Parent = f})
                     mk("TextLabel", {
-                        Size = UDim2.new(1, -20, 1, 0),
-                        Position = UDim2.new(0, 12, 0, 0),
-                        BackgroundTransparency = 1,
-                        Text = o.Name or "Button",
-                        TextColor3 = T.Text,
-                        Font = Enum.Font.Gotham,
-                        TextSize = 12,
-                        TextXAlignment = Enum.TextXAlignment.Left,
-                        Parent = f,
+                        Size = UDim2.new(1, -20, 1, 0), Position = UDim2.new(0, 12, 0, 0),
+                        BackgroundTransparency = 1, Text = o.Name or "Button",
+                        TextColor3 = T.Text, Font = Enum.Font.Gotham,
+                        TextSize = 12, TextXAlignment = Enum.TextXAlignment.Left, Parent = f,
                     })
                     f.MouseButton1Click:Connect(function() pcall(cb) end)
                     f.MouseEnter:Connect(function() tw(s, {Color = T.Accent}, 0.1) end)
@@ -413,36 +348,28 @@ local c1rooUI = (function()
 
                     local f = mk("Frame", {
                         Size = UDim2.new(1, 0, 0, 34),
-                        BackgroundColor3 = T.Surface,
-                        BorderSizePixel = 0,
+                        BackgroundColor3 = T.Surface, BorderSizePixel = 0,
                     })
                     mk("UICorner", {CornerRadius = UDim.new(0, 6), Parent = f})
                     local s = mk("UIStroke", {Color = T.Border, Thickness = 1, Parent = f})
                     mk("TextLabel", {
-                        Size = UDim2.new(1, -80, 1, 0),
-                        Position = UDim2.new(0, 12, 0, 0),
-                        BackgroundTransparency = 1,
-                        Text = o.Name or "Toggle",
-                        TextColor3 = T.Text,
-                        Font = Enum.Font.Gotham,
-                        TextSize = 12,
-                        TextXAlignment = Enum.TextXAlignment.Left,
-                        Parent = f,
+                        Size = UDim2.new(1, -80, 1, 0), Position = UDim2.new(0, 12, 0, 0),
+                        BackgroundTransparency = 1, Text = o.Name or "Toggle",
+                        TextColor3 = T.Text, Font = Enum.Font.Gotham,
+                        TextSize = 12, TextXAlignment = Enum.TextXAlignment.Left, Parent = f,
                     })
                     local bg = mk("Frame", {
                         Size = UDim2.new(0, 42, 0, 22),
                         Position = UDim2.new(1, -54, 0.5, -11),
                         BackgroundColor3 = state and T.ToggleOn or T.ToggleOff,
-                        BorderSizePixel = 0,
-                        Parent = f,
+                        BorderSizePixel = 0, Parent = f,
                     })
                     mk("UICorner", {CornerRadius = UDim.new(1, 0), Parent = bg})
                     local knob = mk("Frame", {
                         Size = UDim2.new(0, 18, 0, 18),
                         Position = state and UDim2.new(1, -20, 0.5, -9) or UDim2.new(0, 2, 0.5, -9),
                         BackgroundColor3 = Color3.fromRGB(255, 255, 255),
-                        BorderSizePixel = 0,
-                        Parent = bg,
+                        BorderSizePixel = 0, Parent = bg,
                     })
                     mk("UICorner", {CornerRadius = UDim.new(1, 0), Parent = knob})
                     local click = mk("TextButton", {Size = UDim2.new(1, 0, 1, 0), BackgroundTransparency = 1, Text = "", Parent = f})
@@ -468,56 +395,38 @@ local c1rooUI = (function()
 
                     local f = mk("Frame", {
                         Size = UDim2.new(1, 0, 0, 52),
-                        BackgroundColor3 = T.Surface,
-                        BorderSizePixel = 0,
+                        BackgroundColor3 = T.Surface, BorderSizePixel = 0,
                     })
                     mk("UICorner", {CornerRadius = UDim.new(0, 6), Parent = f})
                     mk("UIStroke", {Color = T.Border, Thickness = 1, Parent = f})
 
                     mk("TextLabel", {
-                        Size = UDim2.new(0.7, 0, 0, 22),
-                        Position = UDim2.new(0, 12, 0, 4),
-                        BackgroundTransparency = 1,
-                        Text = o.Name or "Slider",
-                        TextColor3 = T.Text,
-                        Font = Enum.Font.Gotham,
-                        TextSize = 12,
-                        TextXAlignment = Enum.TextXAlignment.Left,
-                        Parent = f,
+                        Size = UDim2.new(0.7, 0, 0, 22), Position = UDim2.new(0, 12, 0, 4),
+                        BackgroundTransparency = 1, Text = o.Name or "Slider",
+                        TextColor3 = T.Text, Font = Enum.Font.Gotham,
+                        TextSize = 12, TextXAlignment = Enum.TextXAlignment.Left, Parent = f,
                     })
                     local vl = mk("TextLabel", {
-                        Size = UDim2.new(0.3, -12, 0, 22),
-                        Position = UDim2.new(0.7, 0, 0, 4),
-                        BackgroundTransparency = 1,
-                        Text = tostring(value),
-                        TextColor3 = T.Accent,
-                        Font = Enum.Font.GothamBold,
-                        TextSize = 12,
-                        TextXAlignment = Enum.TextXAlignment.Right,
-                        Parent = f,
+                        Size = UDim2.new(0.3, -12, 0, 22), Position = UDim2.new(0.7, 0, 0, 4),
+                        BackgroundTransparency = 1, Text = tostring(value),
+                        TextColor3 = T.Accent, Font = Enum.Font.GothamBold,
+                        TextSize = 12, TextXAlignment = Enum.TextXAlignment.Right, Parent = f,
                     })
                     local barBg = mk("Frame", {
-                        Size = UDim2.new(1, -24, 0, 8),
-                        Position = UDim2.new(0, 12, 0, 36),
-                        BackgroundColor3 = T.ToggleOff,
-                        BorderSizePixel = 0,
-                        Parent = f,
+                        Size = UDim2.new(1, -24, 0, 8), Position = UDim2.new(0, 12, 0, 36),
+                        BackgroundColor3 = T.ToggleOff, BorderSizePixel = 0, Parent = f,
                     })
                     mk("UICorner", {CornerRadius = UDim.new(1, 0), Parent = barBg})
                     local fill = mk("Frame", {
                         Size = UDim2.new((value - min) / (max - min), 0, 1, 0),
-                        BackgroundColor3 = T.Accent,
-                        BorderSizePixel = 0,
-                        Parent = barBg,
+                        BackgroundColor3 = T.Accent, BorderSizePixel = 0, Parent = barBg,
                     })
                     mk("UICorner", {CornerRadius = UDim.new(1, 0), Parent = fill})
                     local knob = mk("Frame", {
                         Size = UDim2.new(0, 14, 0, 14),
                         Position = UDim2.new((value - min) / (max - min), -7, 0.5, -7),
                         BackgroundColor3 = Color3.fromRGB(255, 255, 255),
-                        BorderSizePixel = 0,
-                        ZIndex = 2,
-                        Parent = barBg,
+                        BorderSizePixel = 0, ZIndex = 2, Parent = barBg,
                     })
                     mk("UICorner", {CornerRadius = UDim.new(1, 0), Parent = knob})
 
@@ -532,14 +441,11 @@ local c1rooUI = (function()
                     end
                     barBg.InputBegan:Connect(function(i)
                         if i.UserInputType == Enum.UserInputType.MouseButton1 or i.UserInputType == Enum.UserInputType.Touch then
-                            dragging2 = true
-                            upd(i)
+                            dragging2 = true; upd(i)
                         end
                     end)
                     UserInputService.InputChanged:Connect(function(i)
-                        if dragging2 and (i.UserInputType == Enum.UserInputType.MouseMovement or i.UserInputType == Enum.UserInputType.Touch) then
-                            upd(i)
-                        end
+                        if dragging2 and (i.UserInputType == Enum.UserInputType.MouseMovement or i.UserInputType == Enum.UserInputType.Touch) then upd(i) end
                     end)
                     UserInputService.InputEnded:Connect(function(i)
                         if i.UserInputType == Enum.UserInputType.MouseButton1 or i.UserInputType == Enum.UserInputType.Touch then dragging2 = false end
@@ -563,35 +469,24 @@ local c1rooUI = (function()
                     o = o or {}
                     local f = mk("Frame", {
                         Size = UDim2.new(1, 0, 0, 54),
-                        BackgroundColor3 = T.Surface,
-                        BorderSizePixel = 0,
+                        BackgroundColor3 = T.Surface, BorderSizePixel = 0,
                     })
                     mk("UICorner", {CornerRadius = UDim.new(0, 6), Parent = f})
                     mk("UIStroke", {Color = T.Border, Thickness = 1, Parent = f})
                     mk("TextLabel", {
-                        Size = UDim2.new(1, -24, 0, 20),
-                        Position = UDim2.new(0, 12, 0, 4),
-                        BackgroundTransparency = 1,
-                        Text = o.Name or "Input",
-                        TextColor3 = T.Text,
-                        Font = Enum.Font.Gotham,
-                        TextSize = 11,
-                        TextXAlignment = Enum.TextXAlignment.Left,
-                        Parent = f,
+                        Size = UDim2.new(1, -24, 0, 20), Position = UDim2.new(0, 12, 0, 4),
+                        BackgroundTransparency = 1, Text = o.Name or "Input",
+                        TextColor3 = T.Text, Font = Enum.Font.Gotham,
+                        TextSize = 11, TextXAlignment = Enum.TextXAlignment.Left, Parent = f,
                     })
                     local box = mk("TextBox", {
-                        Size = UDim2.new(1, -24, 0, 24),
-                        Position = UDim2.new(0, 12, 0, 24),
-                        BackgroundColor3 = T.Bg,
-                        Text = "",
+                        Size = UDim2.new(1, -24, 0, 24), Position = UDim2.new(0, 12, 0, 24),
+                        BackgroundColor3 = T.Bg, Text = "",
                         PlaceholderText = o.Placeholder or "",
-                        PlaceholderColor3 = T.TextDim,
-                        TextColor3 = T.Text,
-                        Font = Enum.Font.Gotham,
-                        TextSize = 12,
+                        PlaceholderColor3 = T.TextDim, TextColor3 = T.Text,
+                        Font = Enum.Font.Gotham, TextSize = 12,
                         TextXAlignment = Enum.TextXAlignment.Left,
-                        ClearTextOnFocus = false,
-                        Parent = f,
+                        ClearTextOnFocus = false, Parent = f,
                     })
                     mk("UICorner", {CornerRadius = UDim.new(0, 4), Parent = box})
                     mk("UIPadding", {PaddingLeft = UDim.new(0, 8), PaddingRight = UDim.new(0, 8), Parent = box})
@@ -621,30 +516,29 @@ local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
 local VirtualUser = game:GetService("VirtualUser")
+local VirtualInputManager = game:GetService("VirtualInputManager")
 local Lighting = game:GetService("Lighting")
 local TeleportService = game:GetService("TeleportService")
 local StarterGui = game:GetService("StarterGui")
 local HttpService = game:GetService("HttpService")
+local TweenService = game:GetService("TweenService")
 local Camera = workspace.CurrentCamera
 local LocalPlayer = Players.LocalPlayer
 
 local function notify(title, text, dur, ntype, icon)
     pcall(function()
         StarterGui:SetCore("SendNotification", {
-            Title = title,
-            Text = text,
+            Title = title, Text = text,
             Duration = dur or 3,
             Icon = icon ~= "" and icon or nil,
         })
     end)
 end
 
--- ============================================
--- DATABASE ANIMATIONS
--- ============================================
+-- ========== DATABASE ANIMATIONS ==========
 local AnimDB = {
     Full = {
-        "Bubbly", "Cartoony", "Zombie", "Ghost", "Cowboy", "Ninja", "Robot", 
+        "Bubbly", "Cartoony", "Zombie", "Ghost", "Cowboy", "Ninja", "Robot",
         "Pirate", "Knight", "Mage", "Vampire", "Werewolf", "Sneaky", "Stylish",
         "Confident", "Elder", "Toy", "Superhero", "Wicked (Popular)"
     },
@@ -767,7 +661,6 @@ local AnimDB = {
         ["OldSchool"] = "10921244018", ["Patrol"] = "1151221899", ["Levitation"] = "10921139478",
     }
 }
-
 -- ========== HELPER ANIMASI ==========
 local function preloadAnimation(animId)
     if not animId then return end
@@ -903,6 +796,9 @@ local state = {
     chatSpamEnabled = false, chatSpamText = "", chatSpamDelay = 1,
     reachEnabled = false, reachDistance = 10,
     shiftLockEnabled = false,
+    autoRespawn = false, autoHeal = false,
+    autoClicker = false, autoClickerCPS = 10,
+    bunnyHop = false, trackerHUD = false,
 }
 
 -- ========== ESP ==========
@@ -1073,8 +969,7 @@ local function applyWalkspeed()
     if hum then hum.WalkSpeed = state.walkspeedEnabled and state.walkspeedValue or 16 end
 end
 
--- ========== FITUR BARU ==========
--- INFINITE JUMP
+-- ========== INFINITE JUMP ==========
 local infJumpConn = nil
 local function enableInfiniteJump()
     if infJumpConn then return end
@@ -1088,7 +983,7 @@ local function disableInfiniteJump()
     if infJumpConn then infJumpConn:Disconnect(); infJumpConn = nil end
 end
 
--- NOCLIP
+-- ========== NOCLIP ==========
 local noclipConn = nil
 local function enableNoclip()
     if noclipConn then return end
@@ -1105,7 +1000,7 @@ local function disableNoclip()
     if noclipConn then noclipConn:Disconnect(); noclipConn = nil end
 end
 
--- FLY
+-- ========== FLY ==========
 local flyConn, flyBodyVel, flyBodyGyro = nil, nil, nil
 local function enableFly()
     if flyConn then return end
@@ -1141,7 +1036,7 @@ local function disableFly()
     if flyBodyGyro then flyBodyGyro:Destroy(); flyBodyGyro = nil end
 end
 
--- HIP HEIGHT, JUMP, GRAVITY, FOV
+-- ========== PHYSICS ==========
 local function applyHipHeight(v)
     local hum = LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
     if hum then hum.HipHeight = v end
@@ -1153,7 +1048,7 @@ end
 local function applyGravity(v) workspace.Gravity = v end
 local function applyFOV(v) Camera.FieldOfView = v end
 
--- ANTI FLING
+-- ========== ANTI FLING ==========
 local antiFlingConn = nil
 local function enableAntiFling()
     if antiFlingConn then return end
@@ -1172,7 +1067,7 @@ local function disableAntiFling()
     if antiFlingConn then antiFlingConn:Disconnect(); antiFlingConn = nil end
 end
 
--- CHAT SPAM
+-- ========== CHAT SPAM ==========
 local chatSpamConn = nil
 local function enableChatSpam()
     if chatSpamConn then return end
@@ -1193,7 +1088,7 @@ local function disableChatSpam()
     chatSpamConn = nil
 end
 
--- REACH
+-- ========== REACH ==========
 local reachConn = nil
 local function enableReach()
     if reachConn then return end
@@ -1220,7 +1115,182 @@ local function disableReach()
     end
 end
 
--- TELEPORT
+-- ========== AUTO RESPAWN ==========
+local autoRespawnConn = nil
+local function enableAutoRespawn()
+    if autoRespawnConn then return end
+    autoRespawnConn = RunService.Heartbeat:Connect(function()
+        if not state.autoRespawn then return end
+        local char = LocalPlayer.Character
+        if not char then return end
+        local hum = char:FindFirstChildOfClass("Humanoid")
+        if hum and hum.Health <= 0 then
+            task.wait(0.5)
+            LocalPlayer:LoadCharacter()
+        end
+    end)
+end
+local function disableAutoRespawn()
+    if autoRespawnConn then autoRespawnConn:Disconnect(); autoRespawnConn = nil end
+end
+
+-- ========== AUTO HEAL ==========
+local autoHealConn = nil
+local function enableAutoHeal()
+    if autoHealConn then return end
+    autoHealConn = RunService.Heartbeat:Connect(function()
+        if not state.autoHeal then return end
+        local char = LocalPlayer.Character
+        if not char then return end
+        local hum = char:FindFirstChildOfClass("Humanoid")
+        if hum and hum.Health > 0 and hum.Health < hum.MaxHealth * 0.5 then
+            task.wait(0.3)
+            hum.Health = hum.MaxHealth
+        end
+    end)
+end
+local function disableAutoHeal()
+    if autoHealConn then autoHealConn:Disconnect(); autoHealConn = nil end
+end
+
+-- ========== AUTO CLICKER ==========
+local autoClickConn = nil
+local function enableAutoClicker()
+    if autoClickConn then return end
+    autoClickConn = task.spawn(function()
+        while state.autoClicker do
+            pcall(function()
+                VirtualInputManager:SendMouseButtonEvent(0, 0, 0, true, game, 0)
+                task.wait(0.01)
+                VirtualInputManager:SendMouseButtonEvent(0, 0, 0, false, game, 0)
+            end)
+            task.wait(1 / (state.autoClickerCPS or 10))
+        end
+    end)
+end
+local function disableAutoClicker()
+    state.autoClicker = false
+    autoClickConn = nil
+end
+
+-- ========== BUNNY HOP ==========
+local bunnyHopConn = nil
+local function enableBunnyHop()
+    if bunnyHopConn then return end
+    bunnyHopConn = RunService.Heartbeat:Connect(function()
+        if not state.bunnyHop then return end
+        local char = LocalPlayer.Character
+        if not char then return end
+        local hum = char:FindFirstChildOfClass("Humanoid")
+        if not hum then return end
+        if hum.MoveDirection.Magnitude > 0 and hum.FloorMaterial ~= Enum.Material.Air then
+            hum.Jump = true
+        end
+    end)
+end
+local function disableBunnyHop()
+    if bunnyHopConn then bunnyHopConn:Disconnect(); bunnyHopConn = nil end
+end
+
+-- ========== SAVE / LOAD POSITION ==========
+local savedPosition = nil
+local function savePosition()
+    local char = LocalPlayer.Character
+    if char and char:FindFirstChild("HumanoidRootPart") then
+        local p = char.HumanoidRootPart.CFrame
+        savedPosition = {X = p.X, Y = p.Y, Z = p.Z}
+        return true
+    end
+    return false
+end
+local function loadPosition()
+    if not savedPosition then return false end
+    local char = LocalPlayer.Character
+    if char and char:FindFirstChild("HumanoidRootPart") then
+        char.HumanoidRootPart.CFrame = CFrame.new(savedPosition.X, savedPosition.Y, savedPosition.Z)
+        return true
+    end
+    return false
+end
+
+-- ========== GET ALL TOOLS ==========
+local function getAllTools()
+    local char = LocalPlayer.Character
+    if not char then return 0 end
+    local count = 0
+    for _, obj in ipairs(workspace:GetDescendants()) do
+        if obj:IsA("Tool") and obj.Parent ~= char then
+            pcall(function() obj.Parent = char; count = count + 1 end)
+        end
+    end
+    return count
+end
+
+-- ========== PLAYER TRACKER HUD ==========
+local trackerFrame, trackerList = nil, nil
+local function createTrackerHUD()
+    if trackerFrame then trackerFrame:Destroy() end
+    local gui = Instance.new("ScreenGui")
+    gui.Name = "c1rooTracker"
+    gui.ResetOnSpawn = false
+    pcall(function() gui.Parent = game:GetService("CoreGui") end)
+    if not gui.Parent then gui.Parent = LocalPlayer:WaitForChild("PlayerGui") end
+
+    local frame = Instance.new("Frame")
+    frame.Size = UDim2.new(0, 180, 0, 200)
+    frame.Position = UDim2.new(0, 10, 0, 10)
+    frame.BackgroundColor3 = Color3.fromRGB(15, 15, 20)
+    frame.BackgroundTransparency = 0.2
+    frame.BorderSizePixel = 0
+    frame.Parent = gui
+    local c = Instance.new("UICorner"); c.CornerRadius = UDim.new(0, 8); c.Parent = frame
+    local s = Instance.new("UIStroke"); s.Color = Color3.fromRGB(0, 200, 255); s.Thickness = 1; s.Parent = frame
+
+    local title = Instance.new("TextLabel")
+    title.Size = UDim2.new(1, -16, 0, 22)
+    title.Position = UDim2.new(0, 8, 0, 4)
+    title.BackgroundTransparency = 1
+    title.Text = "PLAYERS"
+    title.TextColor3 = Color3.fromRGB(0, 200, 255)
+    title.Font = Enum.Font.GothamBold
+    title.TextSize = 11
+    title.TextXAlignment = Enum.TextXAlignment.Left
+    title.Parent = frame
+
+    local list = Instance.new("Frame")
+    list.Size = UDim2.new(1, -16, 1, -32)
+    list.Position = UDim2.new(0, 8, 0, 26)
+    list.BackgroundTransparency = 1
+    list.Parent = frame
+
+    trackerFrame = frame
+    trackerList = list
+end
+
+local function updateTrackerHUD()
+    if not state.trackerHUD then return end
+    if not trackerList then createTrackerHUD() end
+    if not trackerList then return end
+    trackerList:ClearAllChildren()
+    local yOff = 0
+    for _, p in ipairs(Players:GetPlayers()) do
+        if p ~= LocalPlayer and p.Character and p.Character:FindFirstChild("HumanoidRootPart") then
+            local label = Instance.new("TextLabel")
+            label.Size = UDim2.new(1, 0, 0, 16)
+            label.Position = UDim2.new(0, 0, 0, yOff)
+            label.BackgroundTransparency = 1
+            label.Text = p.Name
+            label.TextColor3 = Color3.fromRGB(240, 240, 245)
+            label.Font = Enum.Font.Gotham
+            label.TextSize = 10
+            label.TextXAlignment = Enum.TextXAlignment.Left
+            label.Parent = trackerList
+            yOff = yOff + 16
+        end
+    end
+end
+
+-- ========== TELEPORT ==========
 local function tpToPlayer(name)
     for _, p in pairs(Players:GetPlayers()) do
         if p ~= LocalPlayer and string.find(string.lower(p.Name), string.lower(name)) then
@@ -1233,7 +1303,7 @@ local function tpToPlayer(name)
     return false
 end
 
--- SERVER HOP
+-- ========== SERVER HOP ==========
 local function serverHop()
     pcall(function()
         local url = "https://games.roblox.com/v1/games/" .. game.PlaceId .. "/servers/Public?sortOrder=Asc&limit=100"
@@ -1252,21 +1322,6 @@ local shiftLockConn = nil
 local shiftLockGui = nil
 local shiftLockActive = false
 
-local function applyShiftLock()
-    local char = LocalPlayer.Character
-    if not char then return end
-    local hum = char:FindFirstChildOfClass("Humanoid")
-    local hrp = char:FindFirstChild("HumanoidRootPart")
-    if not hum or not hrp then return end
-
-    if shiftLockActive then
-        hum.CameraOffset = Vector3.new(1.75, 0.5, 0)
-        UserInputService.MouseBehavior = Enum.MouseBehavior.LockCenter
-    else
-        hum.CameraOffset = Vector3.zero
-    end
-end
-
 local function enableShiftLock()
     if shiftLockConn then return end
     shiftLockActive = true
@@ -1275,11 +1330,8 @@ local function enableShiftLock()
         local char = LocalPlayer.Character
         if not char then return end
         local hum = char:FindFirstChildOfClass("Humanoid")
-        if hum then
-            hum.CameraOffset = Vector3.new(1.75, 0.5, 0)
-        end
+        if hum then hum.CameraOffset = Vector3.new(1.75, 0.5, 0) end
     end)
-    applyShiftLock()
 end
 
 local function disableShiftLock()
@@ -1305,7 +1357,7 @@ local function createShiftLockIcon()
     btn.Size = UDim2.new(0, 48, 0, 48)
     btn.Position = UDim2.new(1, -68, 1, -68)
     btn.BackgroundColor3 = Color3.fromRGB(20, 20, 28)
-    btn.Text = "🔒"
+    btn.Text = "🔓"
     btn.TextColor3 = Color3.fromRGB(150, 150, 165)
     btn.Font = Enum.Font.GothamBold
     btn.TextSize = 22
@@ -1370,6 +1422,7 @@ end)
 RunService.RenderStepped:Connect(function()
     updateHeadshotAim()
     updateESP()
+    updateTrackerHUD()
 end)
 
 RunService.Heartbeat:Connect(function()
@@ -1389,7 +1442,7 @@ end)
 
 -- ========== BUILD UI ==========
 local UI = c1rooUI
-local window = UI:CreateWindow({ Title = "c1roo_Universal", W = 600, H = 420 })
+local window = UI:CreateWindow({ Title = "c1roo_Universal", W = 620, H = 430 })
 
 -- ===== MAIN =====
 local tabMain = window:AddTab({ Name = "Main" })
@@ -1421,6 +1474,18 @@ secMain:AddToggle({ Name = "Anti AFK", Default = false, Callback = function(v)
     notify("Anti AFK", v and "Aktif." or "Dimatikan.")
 end})
 
+secMain:AddToggle({ Name = "Auto Respawn", Default = false, Callback = function(v)
+    state.autoRespawn = v
+    if v then enableAutoRespawn() else disableAutoRespawn() end
+    notify("Auto Respawn", v and "Aktif." or "Dimatikan.")
+end})
+
+secMain:AddToggle({ Name = "Auto Heal (50%)", Default = false, Callback = function(v)
+    state.autoHeal = v
+    if v then enableAutoHeal() else disableAutoHeal() end
+    notify("Auto Heal", v and "Aktif." or "Dimatikan.")
+end})
+
 secMain:AddButton({ Name = "Rejoin Server", Callback = function()
     notify("Rejoin", "Menghubungkan ulang...")
     task.wait(0.5)
@@ -1436,7 +1501,6 @@ secAim:AddToggle({ Name = "Enable Auto Aim", Default = false, Callback = functio
     if not v then state.currentTarget = nil end
     notify("Auto Aim", v and "Aktif." or "Dimatikan.")
 end})
-
 secAim:AddButton({ Name = "Target: Head", Callback = function() state.aimPartName = "Head"; notify("Aim", "Target: Kepala.") end })
 secAim:AddButton({ Name = "Target: Body", Callback = function() state.aimPartName = "HumanoidRootPart"; notify("Aim", "Target: Badan.") end })
 
@@ -1449,6 +1513,21 @@ end})
 secSpeed:AddSlider({ Name = "Walkspeed Value", Min = 1, Max = 500, Default = 16, Callback = function(v)
     state.walkspeedValue = v
     if state.walkspeedEnabled then applyWalkspeed() end
+end})
+
+local secClick = tabCombat:AddSection({ Name = "Auto Clicker & Bhop" })
+secClick:AddToggle({ Name = "Auto Clicker", Default = false, Callback = function(v)
+    state.autoClicker = v
+    if v then enableAutoClicker() else disableAutoClicker() end
+    notify("Auto Clicker", v and "Aktif." or "Dimatikan.")
+end})
+secClick:AddSlider({ Name = "CPS", Min = 1, Max = 50, Default = 10, Callback = function(v)
+    state.autoClickerCPS = v
+end})
+secClick:AddToggle({ Name = "Bunny Hop", Default = false, Callback = function(v)
+    state.bunnyHop = v
+    if v then enableBunnyHop() else disableBunnyHop() end
+    notify("Bunny Hop", v and "Aktif." or "Dimatikan.")
 end})
 
 local secReach = tabCombat:AddSection({ Name = "Reach" })
@@ -1468,7 +1547,6 @@ secLight:AddToggle({ Name = "Fullbright", Default = false, Callback = function(v
     toggleFullbright(v)
     notify("Fullbright", v and "Aktif." or "Dimatikan.")
 end})
-
 secLight:AddToggle({ Name = "Headless Visual", Default = false, Callback = function(v)
     state.headlessEnabled = v
     setHeadless(v)
@@ -1558,6 +1636,16 @@ secMiscP:AddToggle({ Name = "Anti Fling", Default = false, Callback = function(v
     if v then enableAntiFling() else disableAntiFling() end
     notify("Anti Fling", v and "Aktif." or "Dimatikan.")
 end})
+secMiscP:AddButton({ Name = "Save Position", Callback = function()
+    if savePosition() then notify("Position", "Posisi disimpan.") else notify("Position", "Gagal save.") end
+end})
+secMiscP:AddButton({ Name = "Load Position", Callback = function()
+    if loadPosition() then notify("Position", "Ke posisi tersimpan.") else notify("Position", "Belum ada posisi.") end
+end})
+secMiscP:AddButton({ Name = "Get All Tools", Callback = function()
+    local n = getAllTools()
+    notify("Tools", n .. " tool diambil.")
+end})
 secMiscP:AddButton({ Name = "Reset Character", Callback = function()
     local char = LocalPlayer.Character
     if char then
@@ -1598,6 +1686,18 @@ secChat:AddSlider({ Name = "Delay", Min = 0.5, Max = 10, Default = 1, Callback =
 local secFov = tabMisc:AddSection({ Name = "Camera" })
 secFov:AddSlider({ Name = "FOV", Min = 30, Max = 120, Default = 70, Callback = function(v) state.fov = v; applyFOV(v) end })
 secFov:AddButton({ Name = "Reset FOV", Callback = function() applyFOV(70); notify("FOV", "Reset ke 70.") end })
+
+local secHUD = tabMisc:AddSection({ Name = "Player Tracker HUD" })
+secHUD:AddToggle({ Name = "Show Tracker HUD", Default = false, Callback = function(v)
+    state.trackerHUD = v
+    if v then
+        if not trackerFrame then createTrackerHUD() end
+        if trackerFrame then trackerFrame.Visible = true end
+    else
+        if trackerFrame then trackerFrame.Visible = false end
+    end
+    notify("Tracker HUD", v and "Aktif." or "Dimatikan.")
+end})
 
 -- ========== WELCOME ==========
 task.wait(0.5)
