@@ -1,5 +1,5 @@
 -- ============================================
--- c1roo_Universal - FULL SCRIPT v6
+-- c1roo_Universal - FULL SCRIPT v7
 -- PART 1/2
 -- ============================================
 
@@ -56,8 +56,8 @@ local c1rooUI = (function()
     function c1rooUI:CreateWindow(opts)
         opts = opts or {}
         local title = opts.Title or "c1roo_Universal"
-        local w = opts.W or 600
-        local h = opts.H or 420
+        local w = opts.W or 620
+        local h = opts.H or 430
 
         if gui then gui:Destroy() end
 
@@ -199,12 +199,10 @@ local c1rooUI = (function()
             BackgroundTransparency = 1, Parent = main,
         })
 
-        -- FIXED: tab bar jadi ScrollingFrame biar ga overflow
         local tabBar = mk("ScrollingFrame", {
             Size = UDim2.new(1, -16, 0, 36),
             Position = UDim2.new(0, 8, 0, 8),
-            BackgroundTransparency = 1,
-            BorderSizePixel = 0,
+            BackgroundTransparency = 1, BorderSizePixel = 0,
             ScrollBarThickness = 0,
             ScrollingDirection = Enum.ScrollingDirection.X,
             CanvasSize = UDim2.new(0, 0, 0, 0),
@@ -241,19 +239,12 @@ local c1rooUI = (function()
                 Size = UDim2.new(0, 0, 1, 0),
                 AutomaticSize = Enum.AutomaticSize.X,
                 BackgroundColor3 = T.Surface,
-                Text = name,
-                TextColor3 = T.TextDim,
-                Font = Enum.Font.Gotham,
-                TextSize = 11,
-                AutoButtonColor = false,
-                Parent = self._tabBar,
+                Text = name, TextColor3 = T.TextDim,
+                Font = Enum.Font.Gotham, TextSize = 11,
+                AutoButtonColor = false, Parent = self._tabBar,
             })
             mk("UICorner", {CornerRadius = UDim.new(0, 6), Parent = btn})
-            mk("UIPadding", {
-                PaddingLeft = UDim.new(0, 12),
-                PaddingRight = UDim.new(0, 12),
-                Parent = btn,
-            })
+            mk("UIPadding", {PaddingLeft = UDim.new(0, 12), PaddingRight = UDim.new(0, 12), Parent = btn})
             local stroke = mk("UIStroke", {Color = T.Border, Thickness = 1, Parent = btn})
 
             local page = mk("ScrollingFrame", {
@@ -267,8 +258,7 @@ local c1rooUI = (function()
             mk("UIListLayout", {Padding = UDim.new(0, 8), SortOrder = Enum.SortOrder.LayoutOrder, Parent = page})
             mk("UIPadding", {
                 PaddingTop = UDim.new(0, 4), PaddingBottom = UDim.new(0, 12),
-                PaddingLeft = UDim.new(0, 2), PaddingRight = UDim.new(0, 6),
-                Parent = page,
+                PaddingLeft = UDim.new(0, 2), PaddingRight = UDim.new(0, 6), Parent = page,
             })
 
             local tabObj = {_btn = btn, _stroke = stroke, _page = page, _sectionCount = 0}
@@ -298,17 +288,16 @@ local c1rooUI = (function()
                 local section = mk("Frame", {
                     Size = UDim2.new(1, 0, 0, 30),
                     BackgroundTransparency = 1,
-                    AutomaticSize = Enum.AutomaticSize.Y,
-                    Parent = self._page,
+                    AutomaticSize = Enum.AutomaticSize.Y, Parent = self._page,
                 })
                 mk("UIListLayout", {Padding = UDim.new(0, 6), SortOrder = Enum.SortOrder.LayoutOrder, Parent = section})
                 mk("UIPadding", {PaddingBottom = UDim.new(0, 4), Parent = section})
 
                 mk("TextLabel", {
-                    Size = UDim2.new(1, 0, 0, 22),
-                    BackgroundTransparency = 1, Text = secName,
-                    TextColor3 = T.Accent, Font = Enum.Font.GothamBold,
-                    TextSize = 11, TextXAlignment = Enum.TextXAlignment.Left, Parent = section,
+                    Size = UDim2.new(1, 0, 0, 22), BackgroundTransparency = 1,
+                    Text = secName, TextColor3 = T.Accent,
+                    Font = Enum.Font.GothamBold, TextSize = 11,
+                    TextXAlignment = Enum.TextXAlignment.Left, Parent = section,
                 })
 
                 local secObj = {_frame = section, _itemCount = 0}
@@ -359,8 +348,7 @@ local c1rooUI = (function()
                         TextSize = 12, TextXAlignment = Enum.TextXAlignment.Left, Parent = f,
                     })
                     local bg = mk("Frame", {
-                        Size = UDim2.new(0, 42, 0, 22),
-                        Position = UDim2.new(1, -54, 0.5, -11),
+                        Size = UDim2.new(0, 42, 0, 22), Position = UDim2.new(1, -54, 0.5, -11),
                         BackgroundColor3 = state and T.ToggleOn or T.ToggleOff,
                         BorderSizePixel = 0, Parent = f,
                     })
@@ -799,6 +787,7 @@ local state = {
     autoRespawn = false, autoHeal = false,
     autoClicker = false, autoClickerCPS = 10,
     bunnyHop = false, trackerHUD = false,
+    dpadEnabled = false,
 }
 
 -- ========== ESP ==========
@@ -1317,7 +1306,7 @@ local function serverHop()
     end)
 end
 
--- ========== SHIFT LOCK ==========
+-- ========== SHIFT LOCK (REAL) ==========
 local shiftLockConn = nil
 local shiftLockGui = nil
 local shiftLockActive = false
@@ -1330,7 +1319,21 @@ local function enableShiftLock()
         local char = LocalPlayer.Character
         if not char then return end
         local hum = char:FindFirstChildOfClass("Humanoid")
-        if hum then hum.CameraOffset = Vector3.new(1.75, 0.5, 0) end
+        local hrp = char:FindFirstChild("HumanoidRootPart")
+        if not hum or not hrp then return end
+        hum.CameraOffset = Vector3.new(1.75, 0.5, 0)
+        hum.AutoRotate = false
+        local cam = workspace.CurrentCamera
+        local look = cam.CFrame.LookVector
+        local flatLook = Vector3.new(look.X, 0, look.Z)
+        if flatLook.Magnitude > 0.01 then
+            flatLook = flatLook.Unit
+            local pos = hrp.Position
+            hrp.CFrame = CFrame.new(pos, pos + flatLook)
+        end
+        pcall(function()
+            UserInputService.MouseBehavior = Enum.MouseBehavior.LockCenter
+        end)
     end)
 end
 
@@ -1340,8 +1343,14 @@ local function disableShiftLock()
     local char = LocalPlayer.Character
     if char then
         local hum = char:FindFirstChildOfClass("Humanoid")
-        if hum then hum.CameraOffset = Vector3.zero end
+        if hum then
+            hum.CameraOffset = Vector3.zero
+            hum.AutoRotate = true
+        end
     end
+    pcall(function()
+        UserInputService.MouseBehavior = Enum.MouseBehavior.Default
+    end)
 end
 
 local function createShiftLockIcon()
@@ -1354,17 +1363,17 @@ local function createShiftLockIcon()
 
     local btn = Instance.new("TextButton")
     btn.Name = "ShiftLockBtn"
-    btn.Size = UDim2.new(0, 48, 0, 48)
-    btn.Position = UDim2.new(1, -68, 1, -68)
+    btn.Size = UDim2.new(0, 52, 0, 52)
+    btn.Position = UDim2.new(1, -72, 1, -72)
     btn.BackgroundColor3 = Color3.fromRGB(20, 20, 28)
     btn.Text = "🔓"
     btn.TextColor3 = Color3.fromRGB(150, 150, 165)
     btn.Font = Enum.Font.GothamBold
-    btn.TextSize = 22
+    btn.TextSize = 24
     btn.AutoButtonColor = false
     btn.Parent = shiftLockGui
     local corner = Instance.new("UICorner")
-    corner.CornerRadius = UDim.new(0, 10)
+    corner.CornerRadius = UDim.new(1, 0)
     corner.Parent = btn
     local stroke = Instance.new("UIStroke")
     stroke.Color = Color3.fromRGB(60, 60, 75)
@@ -1372,13 +1381,16 @@ local function createShiftLockIcon()
     stroke.Parent = btn
 
     btn.MouseEnter:Connect(function()
-        TweenService:Create(btn, TweenInfo.new(0.15), {BackgroundColor3 = Color3.fromRGB(35, 35, 48)}):Play()
+        if not shiftLockActive then
+            TweenService:Create(btn, TweenInfo.new(0.15), {BackgroundColor3 = Color3.fromRGB(35, 35, 48)}):Play()
+        end
     end)
     btn.MouseLeave:Connect(function()
         if not shiftLockActive then
             TweenService:Create(btn, TweenInfo.new(0.15), {BackgroundColor3 = Color3.fromRGB(20, 20, 28)}):Play()
         end
     end)
+
     btn.MouseButton1Click:Connect(function()
         if shiftLockActive then
             disableShiftLock()
@@ -1391,7 +1403,152 @@ local function createShiftLockIcon()
             btn.Text = "🔒"
             TweenService:Create(btn, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(0, 120, 160), TextColor3 = Color3.fromRGB(255, 255, 255)}):Play()
             TweenService:Create(stroke, TweenInfo.new(0.2), {Color = Color3.fromRGB(0, 200, 255)}):Play()
-            notify("Shift Lock", "Aktif.")
+            notify("Shift Lock", "Aktif. Avatar ngikutin kamera.")
+        end
+    end)
+end
+
+-- ========== MOBILE D-PAD (Minecraft Style) ==========
+local dpadGui = nil
+local dpadActive = false
+local dpadDirX, dpadDirZ = 0, 0
+local dpadLoopConn = nil
+
+local function createDpad()
+    if dpadGui then dpadGui:Destroy() end
+    dpadDirX, dpadDirZ = 0, 0
+
+    dpadGui = Instance.new("ScreenGui")
+    dpadGui.Name = "c1rooDpad"
+    dpadGui.ResetOnSpawn = false
+    dpadGui.IgnoreGuiInset = true
+    pcall(function() dpadGui.Parent = game:GetService("CoreGui") end)
+    if not dpadGui.Parent then dpadGui.Parent = LocalPlayer:WaitForChild("PlayerGui") end
+
+    local size = 150
+    local container = Instance.new("Frame")
+    container.Name = "Container"
+    container.Size = UDim2.new(0, size, 0, size)
+    container.Position = UDim2.new(0, 20, 1, -size - 30)
+    container.BackgroundColor3 = Color3.fromRGB(15, 15, 20)
+    container.BackgroundTransparency = 0.5
+    container.BorderSizePixel = 0
+    container.Parent = dpadGui
+    local cc = Instance.new("UICorner")
+    cc.CornerRadius = UDim.new(1, 0)
+    cc.Parent = container
+    local cs = Instance.new("UIStroke")
+    cs.Color = Color3.fromRGB(0, 200, 255)
+    cs.Thickness = 1
+    cs.Transparency = 0.5
+    cs.Parent = container
+
+    local btnSize = 44
+    local function makeBtn(name, pos, arrow)
+        local btn = Instance.new("TextButton")
+        btn.Name = name
+        btn.Size = UDim2.new(0, btnSize, 0, btnSize)
+        btn.Position = pos
+        btn.BackgroundColor3 = Color3.fromRGB(30, 30, 45)
+        btn.BackgroundTransparency = 0.15
+        btn.Text = arrow
+        btn.TextColor3 = Color3.fromRGB(200, 200, 215)
+        btn.Font = Enum.Font.GothamBold
+        btn.TextSize = 22
+        btn.AutoButtonColor = false
+        btn.Parent = container
+        local c = Instance.new("UICorner")
+        c.CornerRadius = UDim.new(0, 10)
+        c.Parent = btn
+        return btn
+    end
+
+    local btnUp    = makeBtn("Up",    UDim2.new(0.5, -btnSize/2, 0, 6), "▲")
+    local btnDown  = makeBtn("Down",  UDim2.new(0.5, -btnSize/2, 1, -btnSize-6), "▼")
+    local btnLeft  = makeBtn("Left",  UDim2.new(0, 6, 0.5, -btnSize/2), "◀")
+    local btnRight = makeBtn("Right", UDim2.new(1, -btnSize-6, 0.5, -btnSize/2), "▶")
+
+    local center = Instance.new("Frame")
+    center.Size = UDim2.new(0, 20, 0, 20)
+    center.Position = UDim2.new(0.5, -10, 0.5, -10)
+    center.BackgroundColor3 = Color3.fromRGB(0, 200, 255)
+    center.BackgroundTransparency = 0.5
+    center.BorderSizePixel = 0
+    center.Parent = container
+    local ccc = Instance.new("UICorner")
+    ccc.CornerRadius = UDim.new(1, 0)
+    ccc.Parent = center
+
+    local function highlight(btn, on)
+        TweenService:Create(btn, TweenInfo.new(0.1), {
+            BackgroundColor3 = on and Color3.fromRGB(0, 120, 160) or Color3.fromRGB(30, 30, 45)
+        }):Play()
+    end
+
+    local function bind(btn, axis, val)
+        btn.InputBegan:Connect(function(input)
+            if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+                if axis == "X" then dpadDirX = val else dpadDirZ = val end
+                highlight(btn, true)
+            end
+        end)
+        btn.InputEnded:Connect(function(input)
+            if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+                if axis == "X" then dpadDirX = 0 else dpadDirZ = 0 end
+                highlight(btn, false)
+            end
+        end)
+        btn.MouseLeave:Connect(function()
+            if axis == "X" then dpadDirX = 0 else dpadDirZ = 0 end
+            highlight(btn, false)
+        end)
+    end
+
+    bind(btnUp, "Z", 1)
+    bind(btnDown, "Z", -1)
+    bind(btnLeft, "X", -1)
+    bind(btnRight, "X", 1)
+
+    if dpadLoopConn then dpadLoopConn:Disconnect() end
+    dpadLoopConn = RunService.RenderStepped:Connect(function()
+        if not dpadActive then return end
+        local char = LocalPlayer.Character
+        if not char then return end
+        local hum = char:FindFirstChildOfClass("Humanoid")
+        if not hum then return end
+        local cam = workspace.CurrentCamera
+
+        local fwd = cam.CFrame.LookVector
+        local right = cam.CFrame.RightVector
+        local flatFwd = Vector3.new(fwd.X, 0, fwd.Z)
+        local flatRight = Vector3.new(right.X, 0, right.Z)
+        if flatFwd.Magnitude > 0.01 then flatFwd = flatFwd.Unit end
+        if flatRight.Magnitude > 0.01 then flatRight = flatRight.Unit end
+
+        local moveDir = (flatFwd * dpadDirZ) + (flatRight * dpadDirX)
+        if moveDir.Magnitude > 0 then
+            hum:Move(moveDir.Unit, false)
+        else
+            hum:Move(Vector3.zero, false)
+        end
+    end)
+end
+
+local function destroyDpad()
+    dpadActive = false
+    dpadDirX, dpadDirZ = 0, 0
+    if dpadLoopConn then dpadLoopConn:Disconnect(); dpadLoopConn = nil end
+    if dpadGui then dpadGui:Destroy(); dpadGui = nil end
+end
+
+local function setDefaultControlsVisible(on)
+    pcall(function()
+        local plrGui = LocalPlayer:WaitForChild("PlayerGui", 5)
+        if not plrGui then return end
+        local touchGui = plrGui:FindFirstChild("TouchGui")
+        if touchGui then
+            local controlFrame = touchGui:FindFirstChild("TouchControlFrame")
+            if controlFrame then controlFrame.Visible = on end
         end
     end)
 end
@@ -1438,6 +1595,11 @@ LocalPlayer.CharacterAdded:Connect(function()
     if state.infiniteJump then enableInfiniteJump() end
     if state.noclip then enableNoclip() end
     if state.shiftLockEnabled then enableShiftLock() end
+    if dpadActive then
+        task.wait(0.3)
+        createDpad()
+        setDefaultControlsVisible(false)
+    end
 end)
 
 -- ========== BUILD UI ==========
@@ -1573,6 +1735,21 @@ secShift:AddToggle({ Name = "Enable Shift Lock Icon", Default = false, Callback 
         disableShiftLock()
     end
     notify("Shift Lock", v and "Icon muncul di kanan bawah." or "Dimatikan.")
+end})
+
+local secDpad = tabVisual:AddSection({ Name = "Mobile D-Pad" })
+secDpad:AddToggle({ Name = "Enable D-Pad (Minecraft)", Default = false, Callback = function(v)
+    state.dpadEnabled = v
+    dpadActive = v
+    if v then
+        createDpad()
+        setDefaultControlsVisible(false)
+        notify("D-Pad", "Aktif. Joystick default disembunyikan.")
+    else
+        destroyDpad()
+        setDefaultControlsVisible(true)
+        notify("D-Pad", "Dimatikan.")
+    end
 end})
 
 -- ===== ANIM =====
