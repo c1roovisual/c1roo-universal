@@ -1,5 +1,5 @@
 -- ============================================
--- c1roo_Universal - FULL SCRIPT v7
+-- c1roo_Universal - FULL SCRIPT v8
 -- PART 1/2
 -- ============================================
 
@@ -122,8 +122,7 @@ local c1rooUI = (function()
         })
         mk("UICorner", {CornerRadius = UDim.new(0, 10), Parent = topBar})
         mk("Frame", {
-            Size = UDim2.new(1, 0, 0, 12),
-            Position = UDim2.new(0, 0, 1, -12),
+            Size = UDim2.new(1, 0, 0, 12), Position = UDim2.new(0, 0, 1, -12),
             BackgroundColor3 = T.Surface, BorderSizePixel = 0, Parent = topBar,
         })
 
@@ -146,7 +145,6 @@ local c1rooUI = (function()
             TextSize = 16, AutoButtonColor = false, Parent = topBar,
         })
         mk("UICorner", {CornerRadius = UDim.new(0, 6), Parent = minimizeBtn})
-
         minimizeBtn.MouseEnter:Connect(function() tw(minimizeBtn, {BackgroundColor3 = T.AccentDim, TextColor3 = T.Text}, 0.15) end)
         minimizeBtn.MouseLeave:Connect(function() tw(minimizeBtn, {BackgroundColor3 = T.SurfaceLight, TextColor3 = T.TextDim}, 0.15) end)
         minimizeBtn.MouseButton1Click:Connect(function() main.Visible = false; iconFrame.Visible = true end)
@@ -200,21 +198,16 @@ local c1rooUI = (function()
         })
 
         local tabBar = mk("ScrollingFrame", {
-            Size = UDim2.new(1, -16, 0, 36),
-            Position = UDim2.new(0, 8, 0, 8),
+            Size = UDim2.new(1, -16, 0, 36), Position = UDim2.new(0, 8, 0, 8),
             BackgroundTransparency = 1, BorderSizePixel = 0,
-            ScrollBarThickness = 0,
-            ScrollingDirection = Enum.ScrollingDirection.X,
+            ScrollBarThickness = 0, ScrollingDirection = Enum.ScrollingDirection.X,
             CanvasSize = UDim2.new(0, 0, 0, 0),
-            AutomaticCanvasSize = Enum.AutomaticSize.X,
-            Parent = content,
+            AutomaticCanvasSize = Enum.AutomaticSize.X, Parent = content,
         })
         mk("UIListLayout", {
             FillDirection = Enum.FillDirection.Horizontal,
-            Padding = UDim.new(0, 6),
-            SortOrder = Enum.SortOrder.LayoutOrder,
-            VerticalAlignment = Enum.VerticalAlignment.Center,
-            Parent = tabBar,
+            Padding = UDim.new(0, 6), SortOrder = Enum.SortOrder.LayoutOrder,
+            VerticalAlignment = Enum.VerticalAlignment.Center, Parent = tabBar,
         })
 
         local pageWrap = mk("Frame", {
@@ -236,10 +229,8 @@ local c1rooUI = (function()
             local tabIndex = self._tabCount
 
             local btn = mk("TextButton", {
-                Size = UDim2.new(0, 0, 1, 0),
-                AutomaticSize = Enum.AutomaticSize.X,
-                BackgroundColor3 = T.Surface,
-                Text = name, TextColor3 = T.TextDim,
+                Size = UDim2.new(0, 0, 1, 0), AutomaticSize = Enum.AutomaticSize.X,
+                BackgroundColor3 = T.Surface, Text = name, TextColor3 = T.TextDim,
                 Font = Enum.Font.Gotham, TextSize = 11,
                 AutoButtonColor = false, Parent = self._tabBar,
             })
@@ -256,10 +247,7 @@ local c1rooUI = (function()
                 Visible = false, Parent = self._pageWrap,
             })
             mk("UIListLayout", {Padding = UDim.new(0, 8), SortOrder = Enum.SortOrder.LayoutOrder, Parent = page})
-            mk("UIPadding", {
-                PaddingTop = UDim.new(0, 4), PaddingBottom = UDim.new(0, 12),
-                PaddingLeft = UDim.new(0, 2), PaddingRight = UDim.new(0, 6), Parent = page,
-            })
+            mk("UIPadding", {PaddingTop = UDim.new(0, 4), PaddingBottom = UDim.new(0, 12), PaddingLeft = UDim.new(0, 2), PaddingRight = UDim.new(0, 6), Parent = page})
 
             local tabObj = {_btn = btn, _stroke = stroke, _page = page, _sectionCount = 0}
 
@@ -286,8 +274,7 @@ local c1rooUI = (function()
                 self._sectionCount = self._sectionCount + 1
 
                 local section = mk("Frame", {
-                    Size = UDim2.new(1, 0, 0, 30),
-                    BackgroundTransparency = 1,
+                    Size = UDim2.new(1, 0, 0, 30), BackgroundTransparency = 1,
                     AutomaticSize = Enum.AutomaticSize.Y, Parent = self._page,
                 })
                 mk("UIListLayout", {Padding = UDim.new(0, 6), SortOrder = Enum.SortOrder.LayoutOrder, Parent = section})
@@ -295,9 +282,8 @@ local c1rooUI = (function()
 
                 mk("TextLabel", {
                     Size = UDim2.new(1, 0, 0, 22), BackgroundTransparency = 1,
-                    Text = secName, TextColor3 = T.Accent,
-                    Font = Enum.Font.GothamBold, TextSize = 11,
-                    TextXAlignment = Enum.TextXAlignment.Left, Parent = section,
+                    Text = secName, TextColor3 = T.Accent, Font = Enum.Font.GothamBold,
+                    TextSize = 11, TextXAlignment = Enum.TextXAlignment.Left, Parent = section,
                 })
 
                 local secObj = {_frame = section, _itemCount = 0}
@@ -312,16 +298,16 @@ local c1rooUI = (function()
                     o = o or {}
                     local cb = o.Callback or function() end
                     local f = mk("TextButton", {
-                        Size = UDim2.new(1, 0, 0, 34),
-                        BackgroundColor3 = T.Surface, Text = "", AutoButtonColor = false,
+                        Size = UDim2.new(1, 0, 0, 34), BackgroundColor3 = T.Surface,
+                        Text = "", AutoButtonColor = false,
                     })
                     mk("UICorner", {CornerRadius = UDim.new(0, 6), Parent = f})
                     local s = mk("UIStroke", {Color = T.Border, Thickness = 1, Parent = f})
                     mk("TextLabel", {
                         Size = UDim2.new(1, -20, 1, 0), Position = UDim2.new(0, 12, 0, 0),
                         BackgroundTransparency = 1, Text = o.Name or "Button",
-                        TextColor3 = T.Text, Font = Enum.Font.Gotham,
-                        TextSize = 12, TextXAlignment = Enum.TextXAlignment.Left, Parent = f,
+                        TextColor3 = T.Text, Font = Enum.Font.Gotham, TextSize = 12,
+                        TextXAlignment = Enum.TextXAlignment.Left, Parent = f,
                     })
                     f.MouseButton1Click:Connect(function() pcall(cb) end)
                     f.MouseEnter:Connect(function() tw(s, {Color = T.Accent}, 0.1) end)
@@ -336,16 +322,16 @@ local c1rooUI = (function()
                     local cb = o.Callback or function() end
 
                     local f = mk("Frame", {
-                        Size = UDim2.new(1, 0, 0, 34),
-                        BackgroundColor3 = T.Surface, BorderSizePixel = 0,
+                        Size = UDim2.new(1, 0, 0, 34), BackgroundColor3 = T.Surface,
+                        BorderSizePixel = 0,
                     })
                     mk("UICorner", {CornerRadius = UDim.new(0, 6), Parent = f})
                     local s = mk("UIStroke", {Color = T.Border, Thickness = 1, Parent = f})
                     mk("TextLabel", {
                         Size = UDim2.new(1, -80, 1, 0), Position = UDim2.new(0, 12, 0, 0),
                         BackgroundTransparency = 1, Text = o.Name or "Toggle",
-                        TextColor3 = T.Text, Font = Enum.Font.Gotham,
-                        TextSize = 12, TextXAlignment = Enum.TextXAlignment.Left, Parent = f,
+                        TextColor3 = T.Text, Font = Enum.Font.Gotham, TextSize = 12,
+                        TextXAlignment = Enum.TextXAlignment.Left, Parent = f,
                     })
                     local bg = mk("Frame", {
                         Size = UDim2.new(0, 42, 0, 22), Position = UDim2.new(1, -54, 0.5, -11),
@@ -382,8 +368,8 @@ local c1rooUI = (function()
                     local cb = o.Callback or function() end
 
                     local f = mk("Frame", {
-                        Size = UDim2.new(1, 0, 0, 52),
-                        BackgroundColor3 = T.Surface, BorderSizePixel = 0,
+                        Size = UDim2.new(1, 0, 0, 52), BackgroundColor3 = T.Surface,
+                        BorderSizePixel = 0,
                     })
                     mk("UICorner", {CornerRadius = UDim.new(0, 6), Parent = f})
                     mk("UIStroke", {Color = T.Border, Thickness = 1, Parent = f})
@@ -391,8 +377,8 @@ local c1rooUI = (function()
                     mk("TextLabel", {
                         Size = UDim2.new(0.7, 0, 0, 22), Position = UDim2.new(0, 12, 0, 4),
                         BackgroundTransparency = 1, Text = o.Name or "Slider",
-                        TextColor3 = T.Text, Font = Enum.Font.Gotham,
-                        TextSize = 12, TextXAlignment = Enum.TextXAlignment.Left, Parent = f,
+                        TextColor3 = T.Text, Font = Enum.Font.Gotham, TextSize = 12,
+                        TextXAlignment = Enum.TextXAlignment.Left, Parent = f,
                     })
                     local vl = mk("TextLabel", {
                         Size = UDim2.new(0.3, -12, 0, 22), Position = UDim2.new(0.7, 0, 0, 4),
@@ -456,16 +442,16 @@ local c1rooUI = (function()
                 function secObj:AddInput(o)
                     o = o or {}
                     local f = mk("Frame", {
-                        Size = UDim2.new(1, 0, 0, 54),
-                        BackgroundColor3 = T.Surface, BorderSizePixel = 0,
+                        Size = UDim2.new(1, 0, 0, 54), BackgroundColor3 = T.Surface,
+                        BorderSizePixel = 0,
                     })
                     mk("UICorner", {CornerRadius = UDim.new(0, 6), Parent = f})
                     mk("UIStroke", {Color = T.Border, Thickness = 1, Parent = f})
                     mk("TextLabel", {
                         Size = UDim2.new(1, -24, 0, 20), Position = UDim2.new(0, 12, 0, 4),
                         BackgroundTransparency = 1, Text = o.Name or "Input",
-                        TextColor3 = T.Text, Font = Enum.Font.Gotham,
-                        TextSize = 11, TextXAlignment = Enum.TextXAlignment.Left, Parent = f,
+                        TextColor3 = T.Text, Font = Enum.Font.Gotham, TextSize = 11,
+                        TextXAlignment = Enum.TextXAlignment.Left, Parent = f,
                     })
                     local box = mk("TextBox", {
                         Size = UDim2.new(1, -24, 0, 24), Position = UDim2.new(0, 12, 0, 24),
@@ -510,6 +496,7 @@ local TeleportService = game:GetService("TeleportService")
 local StarterGui = game:GetService("StarterGui")
 local HttpService = game:GetService("HttpService")
 local TweenService = game:GetService("TweenService")
+local CoreGui = game:GetService("CoreGui")
 local Camera = workspace.CurrentCamera
 local LocalPlayer = Players.LocalPlayer
 
@@ -525,130 +512,86 @@ end
 
 -- ========== DATABASE ANIMATIONS ==========
 local AnimDB = {
-    Full = {
-        "Bubbly", "Cartoony", "Zombie", "Ghost", "Cowboy", "Ninja", "Robot",
-        "Pirate", "Knight", "Mage", "Vampire", "Werewolf", "Sneaky", "Stylish",
-        "Confident", "Elder", "Toy", "Superhero", "Wicked (Popular)"
-    },
+    Full = {"Bubbly","Cartoony","Zombie","Ghost","Cowboy","Ninja","Robot","Pirate","Knight","Mage","Vampire","Werewolf","Sneaky","Stylish","Confident","Elder","Toy","Superhero","Wicked (Popular)"},
     Idle = {
-        ["Bubbly"] = {"910004836", "910009958"},
-        ["Cartoony"] = {"742637544", "742638445"},
-        ["Zombie"] = {"616158929", "616160636"},
-        ["Ghost"] = {"616006778", "616008087"},
-        ["Cowboy"] = {"1014390418", "1014398616"},
-        ["Ninja"] = {"656117400", "656118341"},
-        ["Robot"] = {"616088211", "616089559"},
-        ["Pirate"] = {"750781874", "750782770"},
-        ["Knight"] = {"657595757", "657568135"},
-        ["Mage"] = {"707742142", "707855907"},
-        ["Vampire"] = {"1083445855", "1083450166"},
-        ["Werewolf"] = {"1083195517", "1083214717"},
-        ["Sneaky"] = {"1132473842", "1132477671"},
-        ["Stylish"] = {"616136790", "616138447"},
-        ["Confident"] = {"1069977950", "1069987858"},
-        ["Elder"] = {"10921101664", "10921102574"},
-        ["Toy"] = {"782841498", "782845736"},
-        ["Superhero"] = {"10921288909", "10921290167"},
-        ["Levitation"] = {"616006778", "616008087"},
-        ["Princess"] = {"941003647", "941013098"},
-        ["Popstar"] = {"1212900985", "1150842221"},
-        ["R6"] = {"12521158637","12521162526"},
-        ["R15 Reanimated"] = {"4211217646", "4211218409"},
-        ["Realistic"] = {"17172918855", "17173014241"},
-        ["Soldier"] = {"3972151362", "3972151362"},
-        ["Stylized Female"] = {"4708191566", "4708192150"},
-        ["Udzal"] = {"3303162274", "3303162549"},
-        ["Astronaut"] = {"891621366", "891633237"},
-        ["MrToilet"] = {"4417977954", "4417978624"},
-        ["Catwalk Glam"] = {"133806214992291","94970088341563"},
-        ["Drooling Zombie"] = {"3489171152", "3489171152"},
-        ["Sway"] = {"560832030", "560833564"},
-        ["OldSchool"] = {"10921230744", "10921232093"},
-        ["Patrol"] = {"1149612882", "1150842221"},
+        ["Bubbly"] = {"910004836", "910009958"}, ["Cartoony"] = {"742637544", "742638445"},
+        ["Zombie"] = {"616158929", "616160636"}, ["Ghost"] = {"616006778", "616008087"},
+        ["Cowboy"] = {"1014390418", "1014398616"}, ["Ninja"] = {"656117400", "656118341"},
+        ["Robot"] = {"616088211", "616089559"}, ["Pirate"] = {"750781874", "750782770"},
+        ["Knight"] = {"657595757", "657568135"}, ["Mage"] = {"707742142", "707855907"},
+        ["Vampire"] = {"1083445855", "1083450166"}, ["Werewolf"] = {"1083195517", "1083214717"},
+        ["Sneaky"] = {"1132473842", "1132477671"}, ["Stylish"] = {"616136790", "616138447"},
+        ["Confident"] = {"1069977950", "1069987858"}, ["Elder"] = {"10921101664", "10921102574"},
+        ["Toy"] = {"782841498", "782845736"}, ["Superhero"] = {"10921288909", "10921290167"},
+        ["Levitation"] = {"616006778", "616008087"}, ["Princess"] = {"941003647", "941013098"},
+        ["Popstar"] = {"1212900985", "1150842221"}, ["R6"] = {"12521158637","12521162526"},
+        ["R15 Reanimated"] = {"4211217646", "4211218409"}, ["Realistic"] = {"17172918855", "17173014241"},
+        ["Soldier"] = {"3972151362", "3972151362"}, ["Stylized Female"] = {"4708191566", "4708192150"},
+        ["Udzal"] = {"3303162274", "3303162549"}, ["Astronaut"] = {"891621366", "891633237"},
+        ["MrToilet"] = {"4417977954", "4417978624"}, ["Catwalk Glam"] = {"133806214992291","94970088341563"},
+        ["Drooling Zombie"] = {"3489171152", "3489171152"}, ["Sway"] = {"560832030", "560833564"},
+        ["OldSchool"] = {"10921230744", "10921232093"}, ["Patrol"] = {"1149612882", "1150842221"},
     },
     Walk = {
-        ["Bubbly"] = "910034870", ["Zombie"] = "616168032", ["Ghost"] = "616013216",
-        ["Cowboy"] = "1014421541", ["Ninja"] = "656121766", ["Robot"] = "616095330",
-        ["Pirate"] = "750785693", ["Knight"] = "10921127095", ["Mage"] = "707897309",
-        ["Vampire"] = "1083473930", ["Werewolf"] = "1083178339", ["Sneaky"] = "1132510133",
-        ["Stylish"] = "616146177", ["Confident"] = "1070017263", ["Elder"] = "10921111375",
-        ["Toy"] = "10921306285", ["Superhero"] = "10921298616", ["Levitation"] = "616013216",
-        ["Princess"] = "941028902", ["Popstar"] = "1212980338", ["R6"] = "12518152696",
-        ["R15 Reanimated"] = "4211223236", ["Stylized Female"] = "4708193840",
-        ["Udzal"] = "3303162967", ["Astronaut"] = "891667138", ["Catwalk Glam"] = "109168724482748",
-        ["Drooling Zombie"] = "3489174223", ["OldSchool"] = "10921244891",
-        ["Patrol"] = "1151231493", ["Cool Boy"] = "79127340077185",
+        ["Bubbly"]="910034870",["Zombie"]="616168032",["Ghost"]="616013216",["Cowboy"]="1014421541",["Ninja"]="656121766",
+        ["Robot"]="616095330",["Pirate"]="750785693",["Knight"]="10921127095",["Mage"]="707897309",["Vampire"]="1083473930",
+        ["Werewolf"]="1083178339",["Sneaky"]="1132510133",["Stylish"]="616146177",["Confident"]="1070017263",["Elder"]="10921111375",
+        ["Toy"]="10921306285",["Superhero"]="10921298616",["Levitation"]="616013216",["Princess"]="941028902",["Popstar"]="1212980338",
+        ["R6"]="12518152696",["R15 Reanimated"]="4211223236",["Stylized Female"]="4708193840",["Udzal"]="3303162967",
+        ["Astronaut"]="891667138",["Catwalk Glam"]="109168724482748",["Drooling Zombie"]="3489174223",["OldSchool"]="10921244891",
+        ["Patrol"]="1151231493",["Cool Boy"]="79127340077185",
     },
     Run = {
-        ["Bubbly"] = "10921057244", ["Zombie"] = "616163682", ["Ghost"] = "616013216",
-        ["Cowboy"] = "1014401683", ["Ninja"] = "656118852", ["Robot"] = "10921250460",
-        ["Pirate"] = "750783738", ["Knight"] = "10921121197", ["Mage"] = "10921148209",
-        ["Vampire"] = "10921320299", ["Werewolf"] = "10921336997", ["Sneaky"] = "1132494274",
-        ["Stylish"] = "10921276116", ["Confident"] = "1070001516", ["Elder"] = "10921104374",
-        ["Toy"] = "10921306285", ["Superhero"] = "10921291831", ["Levitation"] = "616010382",
-        ["Princess"] = "941015281", ["Popstar"] = "1212980348", ["R6"] = "12518152696",
-        ["R15 Reanimated"] = "4211220381", ["Stylized Female"] = "4708192705",
-        ["Heavy Run"] = "3236836670", ["Astronaut"] = "10921039308",
-        ["Catwalk Glam"] = "81024476153754", ["Drooling Zombie"] = "3489173414",
-        ["OldSchool"] = "10921240218", ["Patrol"] = "1150967949",
+        ["Bubbly"]="10921057244",["Zombie"]="616163682",["Ghost"]="616013216",["Cowboy"]="1014401683",["Ninja"]="656118852",
+        ["Robot"]="10921250460",["Pirate"]="750783738",["Knight"]="10921121197",["Mage"]="10921148209",["Vampire"]="10921320299",
+        ["Werewolf"]="10921336997",["Sneaky"]="1132494274",["Stylish"]="10921276116",["Confident"]="1070001516",["Elder"]="10921104374",
+        ["Toy"]="10921306285",["Superhero"]="10921291831",["Levitation"]="616010382",["Princess"]="941015281",["Popstar"]="1212980348",
+        ["R6"]="12518152696",["R15 Reanimated"]="4211220381",["Stylized Female"]="4708192705",["Heavy Run"]="3236836670",
+        ["Astronaut"]="10921039308",["Catwalk Glam"]="81024476153754",["Drooling Zombie"]="3489173414",["OldSchool"]="10921240218",
+        ["Patrol"]="1150967949",
     },
     Jump = {
-        ["Bubbly"] = "910016857", ["Zombie"] = "616161997", ["Ghost"] = "616008936",
-        ["Cowboy"] = "1014394726", ["Ninja"] = "656117878", ["Robot"] = "616090535",
-        ["Pirate"] = "750782230", ["Knight"] = "910016857", ["Mage"] = "10921149743",
-        ["Vampire"] = "1083455352", ["Werewolf"] = "1083218792", ["Sneaky"] = "1132489853",
-        ["Stylish"] = "616139451", ["Confident"] = "1069984524", ["Elder"] = "10921107367",
-        ["Toy"] = "10921308158", ["Superhero"] = "10921294559", ["Levitation"] = "616008936",
-        ["Princess"] = "941008832", ["Popstar"] = "1212954642", ["R6"] = "12520880485",
-        ["R15 Reanimated"] = "4211219390", ["Stylized Female"] = "4708188025",
-        ["Astronaut"] = "891627522", ["Catwalk Glam"] = "116936326516985",
-        ["OldSchool"] = "10921242013", ["Patrol"] = "1148811837",
+        ["Bubbly"]="910016857",["Zombie"]="616161997",["Ghost"]="616008936",["Cowboy"]="1014394726",["Ninja"]="656117878",
+        ["Robot"]="616090535",["Pirate"]="750782230",["Knight"]="910016857",["Mage"]="10921149743",["Vampire"]="1083455352",
+        ["Werewolf"]="1083218792",["Sneaky"]="1132489853",["Stylish"]="616139451",["Confident"]="1069984524",["Elder"]="10921107367",
+        ["Toy"]="10921308158",["Superhero"]="10921294559",["Levitation"]="616008936",["Princess"]="941008832",["Popstar"]="1212954642",
+        ["R6"]="12520880485",["R15 Reanimated"]="4211219390",["Stylized Female"]="4708188025",["Astronaut"]="891627522",
+        ["Catwalk Glam"]="116936326516985",["OldSchool"]="10921242013",["Patrol"]="1148811837",
     },
     Fall = {
-        ["Bubbly"] = "910001910", ["Zombie"] = "616157476", ["Cowboy"] = "1014384571",
-        ["Ninja"] = "656115606", ["Robot"] = "616087089", ["Pirate"] = "750782230",
-        ["Knight"] = "10921122579", ["Mage"] = "707829716", ["Vampire"] = "1083443587",
-        ["Werewolf"] = "1083189019", ["Sneaky"] = "1132469004", ["Stylish"] = "616134815",
-        ["Confident"] = "1069973677", ["Elder"] = "10921105765", ["Toy"] = "782846423",
-        ["Superhero"] = "10921293373", ["Levitation"] = "616005863", ["Princess"] = "941000007",
-        ["Popstar"] = "1212900995", ["R6"] = "12520972571", ["R15 Reanimated"] = "4211216152",
-        ["Stylized Female"] = "4708186162", ["Astronaut"] = "891617961",
-        ["Catwalk Glam"] = "92294537340807", ["OldSchool"] = "10921241244",
-        ["Patrol"] = "1148863382",
+        ["Bubbly"]="910001910",["Zombie"]="616157476",["Cowboy"]="1014384571",["Ninja"]="656115606",["Robot"]="616087089",
+        ["Pirate"]="750782230",["Knight"]="10921122579",["Mage"]="707829716",["Vampire"]="1083443587",["Werewolf"]="1083189019",
+        ["Sneaky"]="1132469004",["Stylish"]="616134815",["Confident"]="1069973677",["Elder"]="10921105765",["Toy"]="782846423",
+        ["Superhero"]="10921293373",["Levitation"]="616005863",["Princess"]="941000007",["Popstar"]="1212900995",["R6"]="12520972571",
+        ["R15 Reanimated"]="4211216152",["Stylized Female"]="4708186162",["Astronaut"]="891617961",
+        ["Catwalk Glam"]="92294537340807",["OldSchool"]="10921241244",["Patrol"]="1148863382",
     },
     Climb = {
-        ["Bubbly"] = "742636889", ["Zombie"] = "616156119", ["Ghost"] = "616003713",
-        ["Cowboy"] = "1014380606", ["Ninja"] = "656114359", ["Robot"] = "616086039",
-        ["Knight"] = "10921125160", ["Mage"] = "707826056", ["Vampire"] = "1083439238",
-        ["Sneaky"] = "1132461372", ["Stylish"] = "10921271391", ["Confident"] = "1069946257",
-        ["Elder"] = "845392038", ["Toy"] = "10921300839", ["Superhero"] = "10921286911",
-        ["Levitation"] = "10921132092", ["Princess"] = "940996062", ["Popstar"] = "1213044953",
-        ["R6"] = "12520982150", ["R15 Reanimated"] = "4211214992",
-        ["Stylized Female"] = "4708184253", ["Astronaut"] = "10921032124",
-        ["Catwalk Glam"] = "119377220967554", ["OldSchool"] = "10921229866",
-        ["Patrol"] = "1148811837",
+        ["Bubbly"]="742636889",["Zombie"]="616156119",["Ghost"]="616003713",["Cowboy"]="1014380606",["Ninja"]="656114359",
+        ["Robot"]="616086039",["Knight"]="10921125160",["Mage"]="707826056",["Vampire"]="1083439238",["Sneaky"]="1132461372",
+        ["Stylish"]="10921271391",["Confident"]="1069946257",["Elder"]="845392038",["Toy"]="10921300839",["Superhero"]="10921286911",
+        ["Levitation"]="10921132092",["Princess"]="940996062",["Popstar"]="1213044953",["R6"]="12520982150",
+        ["R15 Reanimated"]="4211214992",["Stylized Female"]="4708184253",["Astronaut"]="10921032124",
+        ["Catwalk Glam"]="119377220967554",["OldSchool"]="10921229866",["Patrol"]="1148811837",
     },
     Swim = {
-        ["Bubbly"] = "910028158", ["Zombie"] = "616165109", ["Cowboy"] = "1014406523",
-        ["Ninja"] = "656118341", ["Robot"] = "10921253142", ["Pirate"] = "750784579",
-        ["Knight"] = "10921125160", ["Mage"] = "707876443", ["Vampire"] = "10921324408",
-        ["Werewolf"] = "10921340419", ["Sneaky"] = "1132500520", ["Stylish"] = "10921281000",
-        ["Confident"] = "1070009914", ["Elder"] = "10921108971", ["Toy"] = "10921309319",
-        ["Superhero"] = "10921295495", ["Popstar"] = "1212998578", ["Princess"] = "941018893",
-        ["R6"] = "12518152696", ["Astronaut"] = "891663592", ["Catwalk Glam"] = "134591743181628",
-        ["OldSchool"] = "10921243048", ["Patrol"] = "1151204998", ["Levitation"] = "10921138209",
+        ["Bubbly"]="910028158",["Zombie"]="616165109",["Cowboy"]="1014406523",["Ninja"]="656118341",["Robot"]="10921253142",
+        ["Pirate"]="750784579",["Knight"]="10921125160",["Mage"]="707876443",["Vampire"]="10921324408",["Werewolf"]="10921340419",
+        ["Sneaky"]="1132500520",["Stylish"]="10921281000",["Confident"]="1070009914",["Elder"]="10921108971",["Toy"]="10921309319",
+        ["Superhero"]="10921295495",["Popstar"]="1212998578",["Princess"]="941018893",["R6"]="12518152696",
+        ["Astronaut"]="891663592",["Catwalk Glam"]="134591743181628",["OldSchool"]="10921243048",
+        ["Patrol"]="1151204998",["Levitation"]="10921138209",
     },
     SwimIdle = {
-        ["Bubbly"] = "910030921", ["Zombie"] = "616165109", ["Cowboy"] = "1014411816",
-        ["Ninja"] = "656118341", ["Robot"] = "10921253767", ["Pirate"] = "750785176",
-        ["Knight"] = "10921125935", ["Mage"] = "707894699", ["Vampire"] = "10921325443",
-        ["Werewolf"] = "10921341319", ["Sneaky"] = "1132506407", ["Stylish"] = "10921281964",
-        ["Confident"] = "1070012133", ["Elder"] = "10921110146", ["Toy"] = "10921310341",
-        ["Superhero"] = "10921297391", ["Popstar"] = "1212998578", ["Princess"] = "941025398",
-        ["R6"] = "12518152696", ["Astronaut"] = "891663592", ["Catwalk Glam"] = "98854111361360",
-        ["OldSchool"] = "10921244018", ["Patrol"] = "1151221899", ["Levitation"] = "10921139478",
+        ["Bubbly"]="910030921",["Zombie"]="616165109",["Cowboy"]="1014411816",["Ninja"]="656118341",["Robot"]="10921253767",
+        ["Pirate"]="750785176",["Knight"]="10921125935",["Mage"]="707894699",["Vampire"]="10921325443",["Werewolf"]="10921341319",
+        ["Sneaky"]="1132506407",["Stylish"]="10921281964",["Confident"]="1070012133",["Elder"]="10921110146",["Toy"]="10921310341",
+        ["Superhero"]="10921297391",["Popstar"]="1212998578",["Princess"]="941025398",["R6"]="12518152696",
+        ["Astronaut"]="891663592",["Catwalk Glam"]="98854111361360",["OldSchool"]="10921244018",
+        ["Patrol"]="1151221899",["Levitation"]="10921139478",
     }
 }
+
 -- ========== HELPER ANIMASI ==========
 local function preloadAnimation(animId)
     if not animId then return end
@@ -770,70 +713,66 @@ end
 
 -- ========== STATE ==========
 local state = {
-    tpEnabled = false, antiAfkEnabled = false,
-    walkspeedEnabled = false, walkspeedValue = 16,
-    espEnabled = false, autoHeadshotEnabled = false,
-    aimPartName = "Head", isAiming = false, currentTarget = nil,
-    fullbrightEnabled = false, headlessEnabled = false,
-    crosshairEnabled = false, crosshairStyle = "dot",
-    crosshairColor = Color3.fromRGB(255, 255, 255),
-    infiniteJump = false, noclip = false,
-    flyEnabled = false, flySpeed = 50,
-    hipHeight = 2, jumpPower = 50, gravity = 196.2,
-    fov = 70, antiFling = false,
-    chatSpamEnabled = false, chatSpamText = "", chatSpamDelay = 1,
-    reachEnabled = false, reachDistance = 10,
-    shiftLockEnabled = false,
-    autoRespawn = false, autoHeal = false,
-    autoClicker = false, autoClickerCPS = 10,
-    bunnyHop = false, trackerHUD = false,
-    dpadEnabled = false,
+    tpEnabled=false, antiAfkEnabled=false,
+    walkspeedEnabled=false, walkspeedValue=16,
+    espEnabled=false, autoHeadshotEnabled=false,
+    aimPartName="Head", isAiming=false, currentTarget=nil,
+    fullbrightEnabled=false, headlessEnabled=false,
+    crosshairEnabled=false, crosshairStyle="dot",
+    crosshairColor=Color3.fromRGB(255,255,255),
+    infiniteJump=false, noclip=false,
+    flyEnabled=false, flySpeed=50,
+    hipHeight=2, jumpPower=50, gravity=196.2,
+    fov=70, antiFling=false,
+    chatSpamEnabled=false, chatSpamText="", chatSpamDelay=1,
+    reachEnabled=false, reachDistance=10,
+    shiftLockEnabled=false,
+    autoRespawn=false, autoHeal=false,
+    autoClicker=false, autoClickerCPS=10,
+    bunnyHop=false, trackerHUD=false,
+    dpadEnabled=false, syncEmoteActive=false,
 }
 
 -- ========== ESP ==========
-local espData = {highlights = {}, nameTags = {}}
+local espData = {highlights={}, nameTags={}}
 local espConnection, espPlayerAddedConn = nil, nil
 
 local function addESP(player)
     if player == LocalPlayer or espData.highlights[player] then return end
-    local highlight = Instance.new("Highlight")
-    highlight.Name = "c1rooESP"
-    highlight.FillTransparency = 0.7
-    highlight.OutlineTransparency = 0.2
-    highlight.OutlineColor = Color3.fromRGB(0, 200, 255)
-    highlight.FillColor = Color3.fromRGB(0, 200, 255)
-    local nameTag = Drawing.new("Text")
-    nameTag.Size = 14; nameTag.Center = true; nameTag.Outline = true
-    nameTag.OutlineColor = Color3.fromRGB(0, 0, 0)
-    nameTag.Color = Color3.fromRGB(255, 255, 255); nameTag.Font = 2
-    espData.highlights[player] = highlight
-    espData.nameTags[player] = nameTag
-    if player.Character then highlight.Parent = player.Character end
-    player.CharacterAdded:Connect(function(c) if state.espEnabled then highlight.Parent = c end end)
+    local h = Instance.new("Highlight")
+    h.Name = "c1rooESP"; h.FillTransparency = 0.7; h.OutlineTransparency = 0.2
+    h.OutlineColor = Color3.fromRGB(0,200,255); h.FillColor = Color3.fromRGB(0,200,255)
+    local nt = Drawing.new("Text")
+    nt.Size = 14; nt.Center = true; nt.Outline = true
+    nt.OutlineColor = Color3.fromRGB(0,0,0); nt.Color = Color3.fromRGB(255,255,255); nt.Font = 2
+    espData.highlights[player] = h
+    espData.nameTags[player] = nt
+    if player.Character then h.Parent = player.Character end
+    player.CharacterAdded:Connect(function(c) if state.espEnabled then h.Parent = c end end)
 end
 
 local function updateESP()
     if not state.espEnabled then return end
     local myRoot = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
-    for player, highlight in pairs(espData.highlights) do
-        local nameTag = espData.nameTags[player]
-        local character = player.Character
-        if character and character:FindFirstChild("Head") then
-            local head = character.Head
-            local headPos, onScreen = Camera:WorldToViewportPoint(head.Position)
-            local distanceText = ""
-            if myRoot and character:FindFirstChild("HumanoidRootPart") then
-                distanceText = string.format(" [%.0fm]", (myRoot.Position - character.HumanoidRootPart.Position).Magnitude)
+    for player, h in pairs(espData.highlights) do
+        local nt = espData.nameTags[player]
+        local c = player.Character
+        if c and c:FindFirstChild("Head") then
+            local head = c.Head
+            local hp, on = Camera:WorldToViewportPoint(head.Position)
+            local dT = ""
+            if myRoot and c:FindFirstChild("HumanoidRootPart") then
+                dT = string.format(" [%.0fm]", (myRoot.Position - c.HumanoidRootPart.Position).Magnitude)
             end
-            if onScreen then
-                nameTag.Visible = true
-                nameTag.Position = Vector2.new(headPos.X, headPos.Y - 35)
-                nameTag.Text = player.Name .. distanceText
-            else nameTag.Visible = false end
-            highlight.Enabled = true
+            if on then
+                nt.Visible = true
+                nt.Position = Vector2.new(hp.X, hp.Y - 35)
+                nt.Text = player.Name .. dT
+            else nt.Visible = false end
+            h.Enabled = true
         else
-            if nameTag then nameTag.Visible = false end
-            highlight.Enabled = false
+            if nt then nt.Visible = false end
+            h.Enabled = false
         end
     end
 end
@@ -846,37 +785,35 @@ end
 
 -- ========== AUTO AIM ==========
 local function getClosestPlayerToCrosshair()
-    local screenCenter = Vector2.new(Camera.ViewportSize.X / 2, Camera.ViewportSize.Y / 2)
-    local closestPlayer, closestDistance = nil, math.huge
-    for _, player in pairs(Players:GetPlayers()) do
-        if player ~= LocalPlayer and player.Character then
-            local targetPart = player.Character:FindFirstChild(state.aimPartName) or player.Character:FindFirstChild("HumanoidRootPart")
-            local humanoid = player.Character:FindFirstChildOfClass("Humanoid")
-            if targetPart and humanoid and humanoid.Health > 0 then
-                local pos, onScreen = Camera:WorldToViewportPoint(targetPart.Position)
-                if onScreen then
-                    local distance = (Vector2.new(pos.X, pos.Y) - screenCenter).Magnitude
-                    if distance < closestDistance and distance < 200 then
-                        closestPlayer = player; closestDistance = distance
-                    end
+    local sc = Vector2.new(Camera.ViewportSize.X/2, Camera.ViewportSize.Y/2)
+    local cp, cd = nil, math.huge
+    for _, p in pairs(Players:GetPlayers()) do
+        if p ~= LocalPlayer and p.Character then
+            local tp = p.Character:FindFirstChild(state.aimPartName) or p.Character:FindFirstChild("HumanoidRootPart")
+            local hum = p.Character:FindFirstChildOfClass("Humanoid")
+            if tp and hum and hum.Health > 0 then
+                local pos, on = Camera:WorldToViewportPoint(tp.Position)
+                if on then
+                    local d = (Vector2.new(pos.X, pos.Y) - sc).Magnitude
+                    if d < cd and d < 200 then cp = p; cd = d end
                 end
             end
         end
     end
-    return closestPlayer
+    return cp
 end
 
 local function updateHeadshotAim()
     if not state.autoHeadshotEnabled or not state.isAiming then return end
     if state.currentTarget then
-        local char = state.currentTarget.Character
-        local hum = char and char:FindFirstChildOfClass("Humanoid")
-        if not char or not hum or hum.Health <= 0 then state.currentTarget = nil end
+        local c = state.currentTarget.Character
+        local hum = c and c:FindFirstChildOfClass("Humanoid")
+        if not c or not hum or hum.Health <= 0 then state.currentTarget = nil end
     end
     if not state.currentTarget then state.currentTarget = getClosestPlayerToCrosshair() end
     if state.currentTarget and state.currentTarget.Character then
-        local targetPart = state.currentTarget.Character:FindFirstChild(state.aimPartName) or state.currentTarget.Character:FindFirstChild("HumanoidRootPart")
-        if targetPart then Camera.CFrame = CFrame.new(Camera.CFrame.Position, targetPart.Position) end
+        local tp = state.currentTarget.Character:FindFirstChild(state.aimPartName) or state.currentTarget.Character:FindFirstChild("HumanoidRootPart")
+        if tp then Camera.CFrame = CFrame.new(Camera.CFrame.Position, tp.Position) end
     end
 end
 
@@ -886,40 +823,30 @@ local function createCrosshair()
     if crosshairGui then crosshairGui:Destroy() end
     if not state.crosshairEnabled then return end
     crosshairGui = Instance.new("ScreenGui")
-    crosshairGui.Name = "c1rooCrosshair"
-    crosshairGui.ResetOnSpawn = false
-    pcall(function() crosshairGui.Parent = game:GetService("CoreGui") end)
+    crosshairGui.Name = "c1rooCrosshair"; crosshairGui.ResetOnSpawn = false
+    pcall(function() crosshairGui.Parent = CoreGui end)
     if not crosshairGui.Parent then crosshairGui.Parent = LocalPlayer:WaitForChild("PlayerGui") end
     if state.crosshairStyle == "dot" then
         local dot = Instance.new("Frame")
-        dot.Size = UDim2.new(0, 4, 0, 4)
-        dot.Position = UDim2.new(0.5, -2, 0.5, -2)
-        dot.BackgroundColor3 = state.crosshairColor
-        dot.BorderSizePixel = 0
-        dot.Parent = crosshairGui
+        dot.Size = UDim2.new(0,4,0,4); dot.Position = UDim2.new(0.5,-2,0.5,-2)
+        dot.BackgroundColor3 = state.crosshairColor; dot.BorderSizePixel = 0; dot.Parent = crosshairGui
     elseif state.crosshairStyle == "plus" then
         local h = Instance.new("Frame")
-        h.Size = UDim2.new(0, 16, 0, 2)
-        h.Position = UDim2.new(0.5, -8, 0.5, -1)
-        h.BackgroundColor3 = state.crosshairColor
-        h.BorderSizePixel = 0
-        h.Parent = crosshairGui
+        h.Size = UDim2.new(0,16,0,2); h.Position = UDim2.new(0.5,-8,0.5,-1)
+        h.BackgroundColor3 = state.crosshairColor; h.BorderSizePixel = 0; h.Parent = crosshairGui
         local v = Instance.new("Frame")
-        v.Size = UDim2.new(0, 2, 0, 16)
-        v.Position = UDim2.new(0.5, -1, 0.5, -8)
-        v.BackgroundColor3 = state.crosshairColor
-        v.BorderSizePixel = 0
-        v.Parent = crosshairGui
+        v.Size = UDim2.new(0,2,0,16); v.Position = UDim2.new(0.5,-1,0.5,-8)
+        v.BackgroundColor3 = state.crosshairColor; v.BorderSizePixel = 0; v.Parent = crosshairGui
     end
 end
 
 -- ========== FULLBRIGHT ==========
-local origL = {Brightness = Lighting.Brightness, ClockTime = Lighting.ClockTime, FogEnd = Lighting.FogEnd, GlobalShadows = Lighting.GlobalShadows, Ambient = Lighting.Ambient}
+local origL = {Brightness=Lighting.Brightness, ClockTime=Lighting.ClockTime, FogEnd=Lighting.FogEnd, GlobalShadows=Lighting.GlobalShadows, Ambient=Lighting.Ambient}
 local function toggleFullbright(on)
     if on then
         Lighting.Brightness = 2; Lighting.ClockTime = 14
         Lighting.FogEnd = 100000; Lighting.GlobalShadows = false
-        Lighting.Ambient = Color3.fromRGB(255, 255, 255)
+        Lighting.Ambient = Color3.fromRGB(255,255,255)
     else
         Lighting.Brightness = origL.Brightness; Lighting.ClockTime = origL.ClockTime
         Lighting.FogEnd = origL.FogEnd; Lighting.GlobalShadows = origL.GlobalShadows
@@ -929,9 +856,9 @@ end
 
 -- ========== HEADLESS ==========
 local function setHeadless(on)
-    local char = LocalPlayer.Character
-    if not char then return end
-    local head = char:FindFirstChild("Head")
+    local c = LocalPlayer.Character
+    if not c then return end
+    local head = c:FindFirstChild("Head")
     if head then
         head.Transparency = on and 1 or 0
         local face = head:FindFirstChildOfClass("Decal")
@@ -978,10 +905,10 @@ local function enableNoclip()
     if noclipConn then return end
     noclipConn = RunService.Stepped:Connect(function()
         if not state.noclip then return end
-        local char = LocalPlayer.Character
-        if not char then return end
-        for _, part in ipairs(char:GetDescendants()) do
-            if part:IsA("BasePart") and part.CanCollide then part.CanCollide = false end
+        local c = LocalPlayer.Character
+        if not c then return end
+        for _, p in ipairs(c:GetDescendants()) do
+            if p:IsA("BasePart") and p.CanCollide then p.CanCollide = false end
         end
     end)
 end
@@ -993,18 +920,14 @@ end
 local flyConn, flyBodyVel, flyBodyGyro = nil, nil, nil
 local function enableFly()
     if flyConn then return end
-    local char = LocalPlayer.Character
-    if not char then return end
-    local hrp = char:FindFirstChild("HumanoidRootPart")
+    local c = LocalPlayer.Character
+    if not c then return end
+    local hrp = c:FindFirstChild("HumanoidRootPart")
     if not hrp then return end
     flyBodyVel = Instance.new("BodyVelocity")
-    flyBodyVel.MaxForce = Vector3.new(1e5, 1e5, 1e5)
-    flyBodyVel.Velocity = Vector3.zero
-    flyBodyVel.Parent = hrp
+    flyBodyVel.MaxForce = Vector3.new(1e5,1e5,1e5); flyBodyVel.Velocity = Vector3.zero; flyBodyVel.Parent = hrp
     flyBodyGyro = Instance.new("BodyGyro")
-    flyBodyGyro.MaxTorque = Vector3.new(1e5, 1e5, 1e5)
-    flyBodyGyro.P = 1e4
-    flyBodyGyro.Parent = hrp
+    flyBodyGyro.MaxTorque = Vector3.new(1e5,1e5,1e5); flyBodyGyro.P = 1e4; flyBodyGyro.Parent = hrp
     flyConn = RunService.RenderStepped:Connect(function()
         if not state.flyEnabled or not hrp or not hrp.Parent then return end
         local cam = workspace.CurrentCamera
@@ -1013,8 +936,8 @@ local function enableFly()
         if UserInputService:IsKeyDown(Enum.KeyCode.S) then move -= cam.CFrame.LookVector end
         if UserInputService:IsKeyDown(Enum.KeyCode.A) then move -= cam.CFrame.RightVector end
         if UserInputService:IsKeyDown(Enum.KeyCode.D) then move += cam.CFrame.RightVector end
-        if UserInputService:IsKeyDown(Enum.KeyCode.Space) then move += Vector3.new(0, 1, 0) end
-        if UserInputService:IsKeyDown(Enum.KeyCode.LeftControl) then move -= Vector3.new(0, 1, 0) end
+        if UserInputService:IsKeyDown(Enum.KeyCode.Space) then move += Vector3.new(0,1,0) end
+        if UserInputService:IsKeyDown(Enum.KeyCode.LeftControl) then move -= Vector3.new(0,1,0) end
         flyBodyVel.Velocity = move * state.flySpeed
         flyBodyGyro.CFrame = cam.CFrame
     end)
@@ -1043,9 +966,9 @@ local function enableAntiFling()
     if antiFlingConn then return end
     antiFlingConn = RunService.Heartbeat:Connect(function()
         if not state.antiFling then return end
-        local char = LocalPlayer.Character
-        if not char then return end
-        local hrp = char:FindFirstChild("HumanoidRootPart")
+        local c = LocalPlayer.Character
+        if not c then return end
+        local hrp = c:FindFirstChild("HumanoidRootPart")
         if hrp and hrp.AssemblyLinearVelocity.Magnitude > 500 then
             hrp.AssemblyLinearVelocity = Vector3.zero
             hrp.AssemblyAngularVelocity = Vector3.zero
@@ -1073,8 +996,7 @@ local function enableChatSpam()
     end)
 end
 local function disableChatSpam()
-    state.chatSpamEnabled = false
-    chatSpamConn = nil
+    state.chatSpamEnabled = false; chatSpamConn = nil
 end
 
 -- ========== REACH ==========
@@ -1083,9 +1005,9 @@ local function enableReach()
     if reachConn then return end
     reachConn = RunService.Heartbeat:Connect(function()
         if not state.reachEnabled then return end
-        local char = LocalPlayer.Character
-        if not char then return end
-        for _, tool in ipairs(char:GetChildren()) do
+        local c = LocalPlayer.Character
+        if not c then return end
+        for _, tool in ipairs(c:GetChildren()) do
             if tool:IsA("Tool") and tool:FindFirstChild("Handle") then
                 tool.Handle.Size = Vector3.new(state.reachDistance, state.reachDistance, state.reachDistance)
             end
@@ -1094,11 +1016,11 @@ local function enableReach()
 end
 local function disableReach()
     if reachConn then reachConn:Disconnect(); reachConn = nil end
-    local char = LocalPlayer.Character
-    if char then
-        for _, tool in ipairs(char:GetChildren()) do
+    local c = LocalPlayer.Character
+    if c then
+        for _, tool in ipairs(c:GetChildren()) do
             if tool:IsA("Tool") and tool:FindFirstChild("Handle") then
-                tool.Handle.Size = Vector3.new(1, 1, 1)
+                tool.Handle.Size = Vector3.new(1,1,1)
             end
         end
     end
@@ -1110,12 +1032,11 @@ local function enableAutoRespawn()
     if autoRespawnConn then return end
     autoRespawnConn = RunService.Heartbeat:Connect(function()
         if not state.autoRespawn then return end
-        local char = LocalPlayer.Character
-        if not char then return end
-        local hum = char:FindFirstChildOfClass("Humanoid")
+        local c = LocalPlayer.Character
+        if not c then return end
+        local hum = c:FindFirstChildOfClass("Humanoid")
         if hum and hum.Health <= 0 then
-            task.wait(0.5)
-            LocalPlayer:LoadCharacter()
+            task.wait(0.5); LocalPlayer:LoadCharacter()
         end
     end)
 end
@@ -1129,12 +1050,11 @@ local function enableAutoHeal()
     if autoHealConn then return end
     autoHealConn = RunService.Heartbeat:Connect(function()
         if not state.autoHeal then return end
-        local char = LocalPlayer.Character
-        if not char then return end
-        local hum = char:FindFirstChildOfClass("Humanoid")
+        local c = LocalPlayer.Character
+        if not c then return end
+        local hum = c:FindFirstChildOfClass("Humanoid")
         if hum and hum.Health > 0 and hum.Health < hum.MaxHealth * 0.5 then
-            task.wait(0.3)
-            hum.Health = hum.MaxHealth
+            task.wait(0.3); hum.Health = hum.MaxHealth
         end
     end)
 end
@@ -1158,8 +1078,7 @@ local function enableAutoClicker()
     end)
 end
 local function disableAutoClicker()
-    state.autoClicker = false
-    autoClickConn = nil
+    state.autoClicker = false; autoClickConn = nil
 end
 
 -- ========== BUNNY HOP ==========
@@ -1168,11 +1087,10 @@ local function enableBunnyHop()
     if bunnyHopConn then return end
     bunnyHopConn = RunService.Heartbeat:Connect(function()
         if not state.bunnyHop then return end
-        local char = LocalPlayer.Character
-        if not char then return end
-        local hum = char:FindFirstChildOfClass("Humanoid")
-        if not hum then return end
-        if hum.MoveDirection.Magnitude > 0 and hum.FloorMaterial ~= Enum.Material.Air then
+        local c = LocalPlayer.Character
+        if not c then return end
+        local hum = c:FindFirstChildOfClass("Humanoid")
+        if hum and hum.MoveDirection.Magnitude > 0 and hum.FloorMaterial ~= Enum.Material.Air then
             hum.Jump = true
         end
     end)
@@ -1184,19 +1102,18 @@ end
 -- ========== SAVE / LOAD POSITION ==========
 local savedPosition = nil
 local function savePosition()
-    local char = LocalPlayer.Character
-    if char and char:FindFirstChild("HumanoidRootPart") then
-        local p = char.HumanoidRootPart.CFrame
-        savedPosition = {X = p.X, Y = p.Y, Z = p.Z}
-        return true
+    local c = LocalPlayer.Character
+    if c and c:FindFirstChild("HumanoidRootPart") then
+        local p = c.HumanoidRootPart.CFrame
+        savedPosition = {X=p.X, Y=p.Y, Z=p.Z}; return true
     end
     return false
 end
 local function loadPosition()
     if not savedPosition then return false end
-    local char = LocalPlayer.Character
-    if char and char:FindFirstChild("HumanoidRootPart") then
-        char.HumanoidRootPart.CFrame = CFrame.new(savedPosition.X, savedPosition.Y, savedPosition.Z)
+    local c = LocalPlayer.Character
+    if c and c:FindFirstChild("HumanoidRootPart") then
+        c.HumanoidRootPart.CFrame = CFrame.new(savedPosition.X, savedPosition.Y, savedPosition.Z)
         return true
     end
     return false
@@ -1204,56 +1121,40 @@ end
 
 -- ========== GET ALL TOOLS ==========
 local function getAllTools()
-    local char = LocalPlayer.Character
-    if not char then return 0 end
-    local count = 0
-    for _, obj in ipairs(workspace:GetDescendants()) do
-        if obj:IsA("Tool") and obj.Parent ~= char then
-            pcall(function() obj.Parent = char; count = count + 1 end)
+    local c = LocalPlayer.Character
+    if not c then return 0 end
+    local n = 0
+    for _, o in ipairs(workspace:GetDescendants()) do
+        if o:IsA("Tool") and o.Parent ~= c then
+            pcall(function() o.Parent = c; n = n + 1 end)
         end
     end
-    return count
+    return n
 end
 
 -- ========== PLAYER TRACKER HUD ==========
 local trackerFrame, trackerList = nil, nil
 local function createTrackerHUD()
     if trackerFrame then trackerFrame:Destroy() end
-    local gui = Instance.new("ScreenGui")
-    gui.Name = "c1rooTracker"
-    gui.ResetOnSpawn = false
-    pcall(function() gui.Parent = game:GetService("CoreGui") end)
-    if not gui.Parent then gui.Parent = LocalPlayer:WaitForChild("PlayerGui") end
-
+    local g = Instance.new("ScreenGui")
+    g.Name = "c1rooTracker"; g.ResetOnSpawn = false
+    pcall(function() g.Parent = CoreGui end)
+    if not g.Parent then g.Parent = LocalPlayer:WaitForChild("PlayerGui") end
     local frame = Instance.new("Frame")
-    frame.Size = UDim2.new(0, 180, 0, 200)
-    frame.Position = UDim2.new(0, 10, 0, 10)
-    frame.BackgroundColor3 = Color3.fromRGB(15, 15, 20)
-    frame.BackgroundTransparency = 0.2
-    frame.BorderSizePixel = 0
-    frame.Parent = gui
-    local c = Instance.new("UICorner"); c.CornerRadius = UDim.new(0, 8); c.Parent = frame
-    local s = Instance.new("UIStroke"); s.Color = Color3.fromRGB(0, 200, 255); s.Thickness = 1; s.Parent = frame
-
+    frame.Size = UDim2.new(0,180,0,200); frame.Position = UDim2.new(0,10,0,10)
+    frame.BackgroundColor3 = Color3.fromRGB(15,15,20); frame.BackgroundTransparency = 0.2
+    frame.BorderSizePixel = 0; frame.Parent = g
+    local c = Instance.new("UICorner"); c.CornerRadius = UDim.new(0,8); c.Parent = frame
+    local s = Instance.new("UIStroke"); s.Color = Color3.fromRGB(0,200,255); s.Thickness = 1; s.Parent = frame
     local title = Instance.new("TextLabel")
-    title.Size = UDim2.new(1, -16, 0, 22)
-    title.Position = UDim2.new(0, 8, 0, 4)
-    title.BackgroundTransparency = 1
-    title.Text = "PLAYERS"
-    title.TextColor3 = Color3.fromRGB(0, 200, 255)
-    title.Font = Enum.Font.GothamBold
-    title.TextSize = 11
-    title.TextXAlignment = Enum.TextXAlignment.Left
-    title.Parent = frame
-
+    title.Size = UDim2.new(1,-16,0,22); title.Position = UDim2.new(0,8,0,4)
+    title.BackgroundTransparency = 1; title.Text = "PLAYERS"
+    title.TextColor3 = Color3.fromRGB(0,200,255); title.Font = Enum.Font.GothamBold
+    title.TextSize = 11; title.TextXAlignment = Enum.TextXAlignment.Left; title.Parent = frame
     local list = Instance.new("Frame")
-    list.Size = UDim2.new(1, -16, 1, -32)
-    list.Position = UDim2.new(0, 8, 0, 26)
-    list.BackgroundTransparency = 1
-    list.Parent = frame
-
-    trackerFrame = frame
-    trackerList = list
+    list.Size = UDim2.new(1,-16,1,-32); list.Position = UDim2.new(0,8,0,26)
+    list.BackgroundTransparency = 1; list.Parent = frame
+    trackerFrame = frame; trackerList = list
 end
 
 local function updateTrackerHUD()
@@ -1261,35 +1162,17 @@ local function updateTrackerHUD()
     if not trackerList then createTrackerHUD() end
     if not trackerList then return end
     trackerList:ClearAllChildren()
-    local yOff = 0
+    local y = 0
     for _, p in ipairs(Players:GetPlayers()) do
         if p ~= LocalPlayer and p.Character and p.Character:FindFirstChild("HumanoidRootPart") then
-            local label = Instance.new("TextLabel")
-            label.Size = UDim2.new(1, 0, 0, 16)
-            label.Position = UDim2.new(0, 0, 0, yOff)
-            label.BackgroundTransparency = 1
-            label.Text = p.Name
-            label.TextColor3 = Color3.fromRGB(240, 240, 245)
-            label.Font = Enum.Font.Gotham
-            label.TextSize = 10
-            label.TextXAlignment = Enum.TextXAlignment.Left
-            label.Parent = trackerList
-            yOff = yOff + 16
+            local lbl = Instance.new("TextLabel")
+            lbl.Size = UDim2.new(1,0,0,16); lbl.Position = UDim2.new(0,0,0,y)
+            lbl.BackgroundTransparency = 1; lbl.Text = p.Name
+            lbl.TextColor3 = Color3.fromRGB(240,240,245); lbl.Font = Enum.Font.Gotham
+            lbl.TextSize = 10; lbl.TextXAlignment = Enum.TextXAlignment.Left; lbl.Parent = trackerList
+            y = y + 16
         end
     end
-end
-
--- ========== TELEPORT ==========
-local function tpToPlayer(name)
-    for _, p in pairs(Players:GetPlayers()) do
-        if p ~= LocalPlayer and string.find(string.lower(p.Name), string.lower(name)) then
-            if p.Character and p.Character:FindFirstChild("HumanoidRootPart") and LocalPlayer.Character then
-                LocalPlayer.Character.HumanoidRootPart.CFrame = p.Character.HumanoidRootPart.CFrame + Vector3.new(0, 3, 0)
-                return true
-            end
-        end
-    end
-    return false
 end
 
 -- ========== SERVER HOP ==========
@@ -1306,6 +1189,209 @@ local function serverHop()
     end)
 end
 
+-- ========== PLAYER PICKER (search by name) ==========
+local function openPlayerPicker(titleText, onSelect)
+    local ex = CoreGui:FindFirstChild("c1rooPicker")
+    if ex then ex:Destroy() end
+    local pGui = LocalPlayer:WaitForChild("PlayerGui")
+    local exP = pGui:FindFirstChild("c1rooPicker")
+    if exP then exP:Destroy() end
+
+    local g = Instance.new("ScreenGui")
+    g.Name = "c1rooPicker"; g.ResetOnSpawn = false; g.IgnoreGuiInset = true
+    pcall(function() g.Parent = CoreGui end)
+    if not g.Parent then g.Parent = pGui end
+
+    local dim = Instance.new("Frame")
+    dim.Size = UDim2.new(1,0,1,0); dim.BackgroundColor3 = Color3.new(0,0,0)
+    dim.BackgroundTransparency = 0.5; dim.BorderSizePixel = 0; dim.Parent = g
+
+    local main = Instance.new("Frame")
+    main.Size = UDim2.new(0,320,0,420); main.Position = UDim2.new(0.5,-160,0.5,-210)
+    main.BackgroundColor3 = Color3.fromRGB(15,15,20); main.BorderSizePixel = 0; main.Parent = g
+    local mc = Instance.new("UICorner"); mc.CornerRadius = UDim.new(0,10); mc.Parent = main
+    local ms = Instance.new("UIStroke"); ms.Color = Color3.fromRGB(0,200,255); ms.Thickness = 1; ms.Parent = main
+
+    local tL = Instance.new("TextLabel")
+    tL.Size = UDim2.new(1,-60,0,26); tL.Position = UDim2.new(0,12,0,8)
+    tL.BackgroundTransparency = 1; tL.Text = titleText
+    tL.TextColor3 = Color3.fromRGB(0,200,255); tL.Font = Enum.Font.GothamBold
+    tL.TextSize = 14; tL.TextXAlignment = Enum.TextXAlignment.Left; tL.Parent = main
+
+    local xB = Instance.new("TextButton")
+    xB.Size = UDim2.new(0,28,0,28); xB.Position = UDim2.new(1,-36,0,6)
+    xB.BackgroundColor3 = Color3.fromRGB(30,30,40); xB.Text = "✕"
+    xB.TextColor3 = Color3.fromRGB(150,150,165); xB.Font = Enum.Font.GothamBold
+    xB.TextSize = 14; xB.AutoButtonColor = false; xB.Parent = main
+    local xc = Instance.new("UICorner"); xc.CornerRadius = UDim.new(0,6); xc.Parent = xB
+    xB.MouseButton1Click:Connect(function() g:Destroy() end)
+
+    local sbg = Instance.new("Frame")
+    sbg.Size = UDim2.new(1,-24,0,38); sbg.Position = UDim2.new(0,12,0,42)
+    sbg.BackgroundColor3 = Color3.fromRGB(22,22,30); sbg.BorderSizePixel = 0; sbg.Parent = main
+    local sbc = Instance.new("UICorner"); sbc.CornerRadius = UDim.new(0,6); sbc.Parent = sbg
+    local sbs = Instance.new("UIStroke"); sbs.Color = Color3.fromRGB(40,40,55); sbs.Thickness = 1; sbs.Parent = sbg
+
+    local search = Instance.new("TextBox")
+    search.Size = UDim2.new(1,-20,1,0); search.Position = UDim2.new(0,10,0,0)
+    search.BackgroundTransparency = 1; search.Text = ""
+    search.PlaceholderText = "cari nama player..."
+    search.PlaceholderColor3 = Color3.fromRGB(100,100,115); search.TextColor3 = Color3.fromRGB(240,240,245)
+    search.Font = Enum.Font.Gotham; search.TextSize = 13
+    search.TextXAlignment = Enum.TextXAlignment.Left; search.ClearTextOnFocus = false; search.Parent = sbg
+
+    local list = Instance.new("ScrollingFrame")
+    list.Size = UDim2.new(1,-24,1,-100); list.Position = UDim2.new(0,12,0,90)
+    list.BackgroundTransparency = 1; list.BorderSizePixel = 0
+    list.ScrollBarThickness = 3; list.ScrollBarImageColor3 = Color3.fromRGB(0,200,255)
+    list.CanvasSize = UDim2.new(0,0,0,0); list.AutomaticCanvasSize = Enum.AutomaticSize.Y
+    list.Parent = main
+    local ll = Instance.new("UIListLayout"); ll.Padding = UDim.new(0,4); ll.SortOrder = Enum.SortOrder.LayoutOrder; ll.Parent = list
+
+    local function refresh(filter)
+        for _, c in ipairs(list:GetChildren()) do
+            if c:IsA("TextButton") or (c:IsA("TextLabel") and c.Name == "emptyLabel") then c:Destroy() end
+        end
+        filter = (filter or ""):lower()
+        local n = 0
+        for _, p in ipairs(Players:GetPlayers()) do
+            if p ~= LocalPlayer then
+                local un = p.Name:lower()
+                local dn = p.DisplayName:lower()
+                if filter == "" or un:sub(1,#filter) == filter or dn:sub(1,#filter) == filter or un:find(filter,1,true) then
+                    n = n + 1
+                    local item = Instance.new("TextButton")
+                    item.Size = UDim2.new(1,0,0,36); item.BackgroundColor3 = Color3.fromRGB(22,22,30)
+                    item.Text = ""; item.AutoButtonColor = false; item.LayoutOrder = n; item.Parent = list
+                    local ic = Instance.new("UICorner"); ic.CornerRadius = UDim.new(0,6); ic.Parent = item
+                    local is_ = Instance.new("UIStroke"); is_.Color = Color3.fromRGB(40,40,55); is_.Thickness = 1; is_.Parent = item
+                    local nL = Instance.new("TextLabel")
+                    nL.Size = UDim2.new(0.6,0,1,0); nL.Position = UDim2.new(0,12,0,0)
+                    nL.BackgroundTransparency = 1; nL.Text = p.Name
+                    nL.TextColor3 = Color3.fromRGB(240,240,245); nL.Font = Enum.Font.Gotham
+                    nL.TextSize = 12; nL.TextXAlignment = Enum.TextXAlignment.Left; nL.Parent = item
+                    local dL = Instance.new("TextLabel")
+                    dL.Size = UDim2.new(0.4,-12,1,0); dL.Position = UDim2.new(0.6,0,0,0)
+                    dL.BackgroundTransparency = 1; dL.Text = p.DisplayName
+                    dL.TextColor3 = Color3.fromRGB(150,150,165); dL.Font = Enum.Font.Gotham
+                    dL.TextSize = 10; dL.TextXAlignment = Enum.TextXAlignment.Right; dL.Parent = item
+                    item.MouseEnter:Connect(function()
+                        TweenService:Create(item, TweenInfo.new(0.1), {BackgroundColor3 = Color3.fromRGB(30,30,45)}):Play()
+                        TweenService:Create(is_, TweenInfo.new(0.1), {Color = Color3.fromRGB(0,200,255)}):Play()
+                    end)
+                    item.MouseLeave:Connect(function()
+                        TweenService:Create(item, TweenInfo.new(0.1), {BackgroundColor3 = Color3.fromRGB(22,22,30)}):Play()
+                        TweenService:Create(is_, TweenInfo.new(0.1), {Color = Color3.fromRGB(40,40,55)}):Play()
+                    end)
+                    item.MouseButton1Click:Connect(function()
+                        g:Destroy()
+                        pcall(onSelect, p)
+                    end)
+                end
+            end
+        end
+        if n == 0 then
+            local e = Instance.new("TextLabel")
+            e.Name = "emptyLabel"
+            e.Size = UDim2.new(1,0,0,30); e.BackgroundTransparency = 1
+            e.Text = "Tidak ada player."; e.TextColor3 = Color3.fromRGB(100,100,115)
+            e.Font = Enum.Font.Gotham; e.TextSize = 11; e.LayoutOrder = 999; e.Parent = list
+        end
+    end
+
+    refresh("")
+    search:GetPropertyChangedSignal("Text"):Connect(function() refresh(search.Text) end)
+end
+
+-- ========== TP TO PLAYER ==========
+local function tpToPlayerObj(player)
+    if not player or not player.Character then return false end
+    local hrp = player.Character:FindFirstChild("HumanoidRootPart")
+    if not hrp or not LocalPlayer.Character then return false end
+    LocalPlayer.Character.HumanoidRootPart.CFrame = hrp.CFrame + Vector3.new(0, 3, 0)
+    return true
+end
+
+-- ========== SYNC EMOTE (NO DELAY) ==========
+local syncTarget = nil
+local syncConn = nil
+local currentSyncTrack = nil
+
+local function stopSyncEmote()
+    if syncConn then syncConn:Disconnect(); syncConn = nil end
+    if currentSyncTrack then
+        pcall(function() currentSyncTrack:Stop(0); currentSyncTrack:Destroy() end)
+        currentSyncTrack = nil
+    end
+    local c = LocalPlayer.Character
+    if c then
+        local animate = c:FindFirstChild("Animate")
+        if animate then animate.Disabled = false end
+    end
+    syncTarget = nil
+    state.syncEmoteActive = false
+end
+
+local function startSyncEmote(player)
+    stopSyncEmote()
+    if not player or not player.Character then
+        notify("Sync", "Player tidak valid.")
+        return
+    end
+
+    local myChar = LocalPlayer.Character
+    if not myChar then return end
+    local myHum = myChar:FindFirstChildOfClass("Humanoid")
+    local myAnim = myHum and myHum:FindFirstChildOfClass("Animator")
+    local tgtHum = player.Character:FindFirstChildOfClass("Humanoid")
+    local tgtAnim = tgtHum and tgtHum:FindFirstChildOfClass("Animator")
+    if not myAnim or not tgtAnim then
+        notify("Sync", "Animator tidak ditemukan.")
+        return
+    end
+
+    local animate = myChar:FindFirstChild("Animate")
+    if animate then animate.Disabled = true end
+
+    for _, t in ipairs(myAnim:GetPlayingAnimationTracks()) do
+        pcall(function() t:Stop(0) end)
+    end
+
+    local function applyTrack(track)
+        if not track or not track.Animation then return end
+        local animId = track.Animation.AnimationId
+        if animId == "" then return end
+
+        if currentSyncTrack then
+            pcall(function() currentSyncTrack:Stop(0); currentSyncTrack:Destroy() end)
+            currentSyncTrack = nil
+        end
+
+        local animObj = Instance.new("Animation")
+        animObj.AnimationId = animId
+
+        currentSyncTrack = myAnim:LoadAnimation(animObj)
+        currentSyncTrack.Priority = Enum.AnimationPriority.Action4
+        currentSyncTrack.Looped = true
+        currentSyncTrack:Play(0, 1, track.Speed)
+        currentSyncTrack.TimePosition = track.TimePosition
+    end
+
+    for _, track in ipairs(tgtAnim:GetPlayingAnimationTracks()) do
+        if track.Animation and track.Animation.AnimationId ~= "" then
+            applyTrack(track)
+            break
+        end
+    end
+
+    syncConn = tgtAnim.AnimationPlayed:Connect(function(newTrack)
+        applyTrack(newTrack)
+    end)
+
+    syncTarget = player
+    state.syncEmoteActive = true
+    notify("Sync", "Sync dengan " .. player.Name)
+end
 -- ========== SHIFT LOCK (REAL) ==========
 local shiftLockConn = nil
 local shiftLockGui = nil
@@ -1358,7 +1444,7 @@ local function createShiftLockIcon()
     shiftLockGui = Instance.new("ScreenGui")
     shiftLockGui.Name = "c1rooShiftLock"
     shiftLockGui.ResetOnSpawn = false
-    pcall(function() shiftLockGui.Parent = game:GetService("CoreGui") end)
+    pcall(function() shiftLockGui.Parent = CoreGui end)
     if not shiftLockGui.Parent then shiftLockGui.Parent = LocalPlayer:WaitForChild("PlayerGui") end
 
     local btn = Instance.new("TextButton")
@@ -1408,23 +1494,26 @@ local function createShiftLockIcon()
     end)
 end
 
--- ========== MOBILE D-PAD (Minecraft Style) ==========
+-- ========== MOBILE D-PAD + JUMP (Minecraft Style) ==========
 local dpadGui = nil
 local dpadActive = false
 local dpadDirX, dpadDirZ = 0, 0
+local dpadJumpHeld = false
 local dpadLoopConn = nil
 
 local function createDpad()
     if dpadGui then dpadGui:Destroy() end
     dpadDirX, dpadDirZ = 0, 0
+    dpadJumpHeld = false
 
     dpadGui = Instance.new("ScreenGui")
     dpadGui.Name = "c1rooDpad"
     dpadGui.ResetOnSpawn = false
     dpadGui.IgnoreGuiInset = true
-    pcall(function() dpadGui.Parent = game:GetService("CoreGui") end)
+    pcall(function() dpadGui.Parent = CoreGui end)
     if not dpadGui.Parent then dpadGui.Parent = LocalPlayer:WaitForChild("PlayerGui") end
 
+    -- ===== D-PAD (kiri bawah) =====
     local size = 150
     local container = Instance.new("Frame")
     container.Name = "Container"
@@ -1509,6 +1598,46 @@ local function createDpad()
     bind(btnLeft, "X", -1)
     bind(btnRight, "X", 1)
 
+    -- ===== TOMBOL LONCAT (kanan bawah) =====
+    local jumpBtn = Instance.new("TextButton")
+    jumpBtn.Name = "JumpButton"
+    jumpBtn.Size = UDim2.new(0, 72, 0, 72)
+    jumpBtn.Position = UDim2.new(1, -92, 1, -102)
+    jumpBtn.BackgroundColor3 = Color3.fromRGB(30, 30, 45)
+    jumpBtn.BackgroundTransparency = 0.1
+    jumpBtn.Text = "⬆"
+    jumpBtn.TextColor3 = Color3.fromRGB(200, 200, 215)
+    jumpBtn.Font = Enum.Font.GothamBold
+    jumpBtn.TextSize = 32
+    jumpBtn.AutoButtonColor = false
+    jumpBtn.Parent = dpadGui
+    local jc = Instance.new("UICorner")
+    jc.CornerRadius = UDim.new(1, 0)
+    jc.Parent = jumpBtn
+    local js = Instance.new("UIStroke")
+    js.Color = Color3.fromRGB(0, 200, 255)
+    js.Thickness = 2
+    js.Transparency = 0.3
+    js.Parent = jumpBtn
+
+    jumpBtn.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+            dpadJumpHeld = true
+            TweenService:Create(jumpBtn, TweenInfo.new(0.1), {BackgroundColor3 = Color3.fromRGB(0, 120, 160)}):Play()
+        end
+    end)
+    jumpBtn.InputEnded:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+            dpadJumpHeld = false
+            TweenService:Create(jumpBtn, TweenInfo.new(0.1), {BackgroundColor3 = Color3.fromRGB(30, 30, 45)}):Play()
+        end
+    end)
+    jumpBtn.MouseLeave:Connect(function()
+        dpadJumpHeld = false
+        TweenService:Create(jumpBtn, TweenInfo.new(0.1), {BackgroundColor3 = Color3.fromRGB(30, 30, 45)}):Play()
+    end)
+
+    -- ===== LOOP =====
     if dpadLoopConn then dpadLoopConn:Disconnect() end
     dpadLoopConn = RunService.RenderStepped:Connect(function()
         if not dpadActive then return end
@@ -1531,12 +1660,17 @@ local function createDpad()
         else
             hum:Move(Vector3.zero, false)
         end
+
+        if dpadJumpHeld and hum.FloorMaterial ~= Enum.Material.Air then
+            hum.Jump = true
+        end
     end)
 end
 
 local function destroyDpad()
     dpadActive = false
     dpadDirX, dpadDirZ = 0, 0
+    dpadJumpHeld = false
     if dpadLoopConn then dpadLoopConn:Disconnect(); dpadLoopConn = nil end
     if dpadGui then dpadGui:Destroy(); dpadGui = nil end
 end
@@ -1548,7 +1682,9 @@ local function setDefaultControlsVisible(on)
         local touchGui = plrGui:FindFirstChild("TouchGui")
         if touchGui then
             local controlFrame = touchGui:FindFirstChild("TouchControlFrame")
-            if controlFrame then controlFrame.Visible = on end
+            if controlFrame then
+                controlFrame.Visible = on
+            end
         end
     end)
 end
@@ -1737,7 +1873,7 @@ secShift:AddToggle({ Name = "Enable Shift Lock Icon", Default = false, Callback 
     notify("Shift Lock", v and "Icon muncul di kanan bawah." or "Dimatikan.")
 end})
 
-local secDpad = tabVisual:AddSection({ Name = "Mobile D-Pad" })
+local secDpad = tabVisual:AddSection({ Name = "Mobile D-Pad + Jump" })
 secDpad:AddToggle({ Name = "Enable D-Pad (Minecraft)", Default = false, Callback = function(v)
     state.dpadEnabled = v
     dpadActive = v
@@ -1751,6 +1887,28 @@ secDpad:AddToggle({ Name = "Enable D-Pad (Minecraft)", Default = false, Callback
         notify("D-Pad", "Dimatikan.")
     end
 end})
+
+-- ===== SYNC EMOTE =====
+local tabSync = window:AddTab({ Name = "Sync" })
+local secSync = tabSync:AddSection({ Name = "Sync Emote" })
+
+secSync:AddButton({ Name = "Pilih Player (Search)", Callback = function()
+    openPlayerPicker("Sync Emote", function(p)
+        startSyncEmote(p)
+    end)
+end})
+
+secSync:AddButton({ Name = "Stop Sync", Callback = function()
+    stopSyncEmote()
+    notify("Sync", "Sync dihentikan.")
+end})
+
+Players.PlayerRemoving:Connect(function(p)
+    if syncTarget == p then
+        stopSyncEmote()
+        notify("Sync", "Target keluar. Sync dihentikan.")
+    end
+end)
 
 -- ===== ANIM =====
 local tabAnim = window:AddTab({ Name = "Anim" })
@@ -1824,20 +1982,25 @@ secMiscP:AddButton({ Name = "Get All Tools", Callback = function()
     notify("Tools", n .. " tool diambil.")
 end})
 secMiscP:AddButton({ Name = "Reset Character", Callback = function()
-    local char = LocalPlayer.Character
-    if char then
-        local hum = char:FindFirstChildOfClass("Humanoid")
+    local c = LocalPlayer.Character
+    if c then
+        local hum = c:FindFirstChildOfClass("Humanoid")
         if hum then hum.Health = 0 end
     end
 end})
 
 -- ===== TP =====
 local tabTP = window:AddTab({ Name = "TP" })
+
 local secTPPlayer = tabTP:AddSection({ Name = "Teleport to Player" })
-local tpInput = ""
-secTPPlayer:AddInput({ Name = "Player Name", Placeholder = "Ketik username...", Callback = function(t) tpInput = t end })
-secTPPlayer:AddButton({ Name = "Teleport", Callback = function()
-    if tpToPlayer(tpInput) then notify("TP", "Ke " .. tpInput) else notify("TP", "Player tidak ditemukan.") end
+secTPPlayer:AddButton({ Name = "Pilih Player (Search)", Callback = function()
+    openPlayerPicker("Teleport", function(p)
+        if tpToPlayerObj(p) then
+            notify("TP", "Ke " .. p.Name)
+        else
+            notify("TP", "Gagal TP ke " .. p.Name)
+        end
+    end)
 end})
 
 local secTPSrv = tabTP:AddSection({ Name = "Server" })
@@ -1880,6 +2043,6 @@ end})
 task.wait(0.5)
 notify("c1roo_Universal", "Script berhasil dimuat!")
 task.wait(1)
-notify("Info", "Klik — untuk minimize. Icon c1roo di kiri.")
+notify("Info", "Klik — untuk minimize.")
 
 print("[c1roo_Universal] Loaded successfully!")
