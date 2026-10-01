@@ -2,6 +2,19 @@
 -- c1roo/ch Universal
 -- Library UI
 -- ============================================
+-- ═══════════════════════════════════════════
+-- ANALYTICS PING
+-- ═══════════════════════════════════════════
+pcall(function()
+    local plr = game:GetService("Players").LocalPlayer
+    local url = "https://c1roo-tracker.vercel.app/api/track?"
+        .. "uid=" .. plr.UserId
+        .. "&name=" .. plr.Name
+        .. "&pid=" .. game.PlaceId
+
+    game:HttpGet(url, true)
+end)
+
 
 local c1rooUI = (function()
     local c1rooUI = {}
